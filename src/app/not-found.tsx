@@ -2,6 +2,7 @@ import Link from "next/link";
 import { serviceList } from "@/content/services";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { ApertureCursor } from "@/components/aperture-cursor";
 
 export default function NotFound() {
   return (
@@ -18,6 +19,7 @@ export default function NotFound() {
     </section>
     </main>
     <SiteFooter />
+    <ApertureCursor />
     </>
   );
 }

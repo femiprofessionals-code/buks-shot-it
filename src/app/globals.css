@@ -110,6 +110,18 @@ html {
   color-scheme: dark;
 }
 
+/* Aperture cursor (mouse and trackpad only; see aperture-cursor.tsx). The normal cursor stays on text fields. */
+html.aperture-cursor,
+html.aperture-cursor * {
+  cursor: none !important;
+}
+html.aperture-cursor :is(input:not([type=checkbox], [type=radio], [type=submit], [type=button]), textarea, [contenteditable=true]) {
+  cursor: text !important;
+}
+html.aperture-cursor select {
+  cursor: default !important;
+}
+
 /* Sections ease in as they scroll into view. Browsers without scroll-driven animation show them straight away. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {

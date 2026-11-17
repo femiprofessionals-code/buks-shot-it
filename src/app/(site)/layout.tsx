@@ -2,6 +2,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { MobileBookingBar } from "@/components/mobile-booking-bar";
 import { isProduction } from "@/content/site";
+import { ApertureCursor } from "@/components/aperture-cursor";
 
 /** Public website: preview banner, header, footer and the mobile booking bar. */
 export default function SiteLayout({ children }: LayoutProps<"/">) {
@@ -16,6 +17,7 @@ export default function SiteLayout({ children }: LayoutProps<"/">) {
       <main id="main" className="flex-1">{children}</main>
       <SiteFooter />
       <MobileBookingBar />
+      <ApertureCursor />
     </>
   );
 }
