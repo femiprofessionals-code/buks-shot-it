@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Buks Shot It · Contact</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400;0,500;1,400&amp;family=Schibsted+Grotesk:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F5F1EA;color:#171717;font-family:'Schibsted Grotesk','Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#7D6240}
+.serif{font-family:'Ibarra Real Nova',Georgia,serif;font-weight:500}
+.wrap{max-width:1320px;margin:0 auto;padding:0 clamp(16px,4vw,48px);box-sizing:border-box}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:48px;padding:0 26px;border-radius:2px;font-size:13px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border:1px solid transparent;box-sizing:border-box;white-space:nowrap}
+.btn-p{background:#171717;color:#F5F1EA}
+.nav a{color:#171717;text-decoration:none}.nav a:hover{color:#7D6240}
+.f{display:flex;flex-direction:column;gap:8px}
+.f label{font-size:14px;font-weight:500}
+.f input,.f textarea,.f select{font-family:inherit;font-size:16px;height:48px;border:1px solid #CFC6B7;background:#FFFFFF;border-radius:2px;padding:0 14px;color:#171717;box-sizing:border-box;width:100%}
+.f textarea{height:160px;padding:12px 14px;resize:vertical}
+.f.err input{border-color:#A23B2E}
+.f.err .msg{color:#A23B2E;font-size:13px}
+.send{font-family:inherit;height:48px;padding:0 28px;border:none;border-radius:2px;background:#171717;color:#F5F1EA;font-size:13px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+@media (max-width:860px){.hide-m{display:none !important}.stack{grid-template-columns:minmax(0,1fr) !important}}
+</style>
+</helmet>
+<div style="min-height: 100%;">
+  <div style="background: #171717; color: #A39D93; font-size: 12px; text-align: center; padding: 8px 16px;">Prototype · press Send message in Play to see the sent state</div>
+  <header style="border-bottom: 1px solid #E2DACB;">
+    <div class="wrap" style="display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 84px;">
+      <a href="Main.dc.html" aria-label="Buks Shot It home"><img src="/_blob/d4944810ddfa12f01b7b094a8d2b90dc" alt="Buks shot it." style="height: 26px; width: auto;"></a>
+      <nav class="nav hide-m" aria-label="Main" style="display: flex; gap: 28px; font-size: 15px;">
+        <a href="Weddings.dc.html">Weddings</a><a href="Weddings.dc.html">Portraits</a><a href="Weddings.dc.html">Events</a><a href="Weddings.dc.html">Products</a><a href="Portfolio.dc.html">Portfolio</a><a href="Pricing.dc.html">Pricing</a><a href="Main.dc.html">About</a>
+      </nav>
+      <div class="nav" style="display: flex; align-items: center; gap: 20px; font-size: 13px;">
+        <a class="hide-m" href="Contact.dc.html" style="color: #7D6240; text-decoration: underline;" aria-current="page">Contact</a>
+        <a class="hide-m" href="Gallery.dc.html" style="color: #6B655C;">Client gallery</a>
+        <a class="btn btn-p" href="Booking.dc.html">Check your date</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="wrap stack" style="display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 72px; padding-top: 96px; padding-bottom: 128px; align-items: start;">
+    <div style="display: flex; flex-direction: column; gap: 24px;">
+      <h1 class="serif" style="margin: 0; font-size: clamp(44px, 5.5vw, 76px); line-height: 1.04;">Contact</h1>
+      <p style="margin: 0; font-size: 18px; line-height: 1.65;">For questions before you book, licensing, or anything else. If you already know your date and package, booking is the quickest way to check availability.</p>
+      <a href="Booking.dc.html" style="font-size: 15px; color: #171717; text-underline-offset: 4px;">Check your date instead</a>
+      <dl style="margin: 24px 0 0; border-top: 1px solid #171717; font-size: 16px;">
+        <div style="display: flex; justify-content: space-between; gap: 16px; padding: 16px 0; border-bottom: 1px solid #E2DACB;"><dt style="color: #6B655C;">Email</dt><dd style="margin: 0;">cjokoro20@gmail.com</dd></div>
+        <div style="display: flex; justify-content: space-between; gap: 16px; padding: 16px 0; border-bottom: 1px solid #E2DACB;"><dt style="color: #6B655C;">Instagram</dt><dd style="margin: 0;">@buks.shotit</dd></div>
+        <div style="display: flex; justify-content: space-between; gap: 16px; padding: 16px 0; border-bottom: 1px solid #E2DACB;"><dt style="color: #6B655C;">Based in</dt><dd style="margin: 0; color: #6B655C;">[Placeholder: service area]</dd></div>
+      </dl>
+      <p style="margin: 0; font-size: 14px; color: #6B655C;">Travel outside the DMV is quoted separately.</p>
+    </div>
+
+    <div style="background: #FFFFFF; border: 1px solid #E2DACB; padding: clamp(24px, 4vw, 48px);">
+      <sc-if value="{{sent}}" hint-placeholder-val="{{false}}">
+        <div role="status" style="display: flex; flex-direction: column; gap: 14px; padding: 24px 0;">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#3F6B4E" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>
+          <h2 class="serif" style="margin: 0; font-size: 36px;">Message sent.</h2>
+          <p style="margin: 0; font-size: 17px; line-height: 1.6;">Thank you. I'll reply by email to jordan@example.com.</p>
+          <p style="margin: 0; font-size: 14px; color: #6B655C;">[Placeholder: reply time, if you choose to promise one]</p>
+        </div>
+      </sc-if>
+      <sc-if value="{{notSent}}" hint-placeholder-val="{{true}}">
+        <form style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px;" class="stack">
+          <div class="f"><label for="c-name">Your name</label><input id="c-name" value="Jordan Example"></div>
+          <div class="f err"><label for="c-email">Email address</label><input id="c-email" type="email" value="jordan@example" aria-invalid="true" aria-describedby="c-email-msg"><span class="msg" id="c-email-msg">Please enter an email address like name@example.com.</span></div>
+          <div class="f" style="grid-column: 1 / -1;"><label for="c-type">What's it about?</label><select id="c-type"><option>Weddings</option><option>Portraits</option><option>Events</option><option>Products</option><option>Licensing</option><option>Something else</option></select></div>
+          <div class="f" style="grid-column: 1 / -1;"><label for="c-msg">Your message</label><textarea id="c-msg">We're planning a small wedding in late spring and wanted to ask about travel.</textarea></div>
+          <div style="grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+            <button type="button" class="send" onClick="{{send}}">Send message</button>
+            <span style="font-size: 13px; color: #6B655C;">The email field shows the error state for review.</span>
+          </div>
+        </form>
+      </sc-if>
+    </div>
+  </section>
+  <footer style="background: #171717; color: #A39D93;">
+    <div class="wrap" style="display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; padding-top: 40px; padding-bottom: 40px; font-size: 13px;">
+      <img src="/_blob/681bea5f5762acdf6eac4b48a4bbc999" alt="Buks shot it." style="height: 24px; width: auto;">
+      <span>Instagram @buks.shotit · cjokoro20@gmail.com · Booking terms · Privacy</span>
+      <span>© 2026 Buks Shot It</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1250}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { sent: false }; }
+  renderVals() {
+    return { sent: this.state.sent, notSent: !this.state.sent, send: () => this.setState({ sent: true }) };
+  }
+}
+</script>
+</body>
+</html>

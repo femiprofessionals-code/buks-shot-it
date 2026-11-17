@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Buks Shot It · Check your date</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400;0,500;1,400&amp;family=Schibsted+Grotesk:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F5F1EA;color:#171717;font-family:'Schibsted Grotesk','Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#7D6240}
+.serif{font-family:'Ibarra Real Nova',Georgia,serif;font-weight:500}
+.wrap{max-width:1320px;margin:0 auto;padding:0 clamp(16px,4vw,48px);box-sizing:border-box}
+.opt{font-family:inherit;text-align:left;width:100%;background:#FFFFFF;border:1px solid #E2DACB;border-radius:2px;padding:18px 20px;cursor:pointer;color:#171717;display:flex;justify-content:space-between;gap:16px;align-items:center;font-size:16px}
+.opt:hover{border-color:#171717}
+.opt.on{border-color:#171717;box-shadow:inset 0 0 0 1px #171717}
+.day{font-family:inherit;height:52px;border-radius:2px;border:1px solid transparent;background:#FFFFFF;color:#171717;font-size:15px;font-variant-numeric:tabular-nums;cursor:pointer;padding:0}
+.day.one{border-color:#E0B36A}.day.full{background:#EDE7DC;color:#A39D93;text-decoration:line-through;cursor:not-allowed}
+.day.blocked{background:transparent;color:#C4BDB2;cursor:not-allowed}.day.sel{background:#171717;color:#F5F1EA}.day.empty{visibility:hidden}
+.time{font-family:inherit;height:44px;border:1px solid #CFC6B7;background:#FFFFFF;border-radius:2px;font-size:14px;cursor:pointer;color:#171717}
+.time.sel{background:#171717;color:#F5F1EA;border-color:#171717}.time.off{color:#A39D93;background:#EDE7DC;text-decoration:line-through;cursor:not-allowed}
+.f{display:flex;flex-direction:column;gap:8px}
+.f label{font-size:14px;font-weight:500}
+.f input,.f textarea,.f select{font-family:inherit;font-size:16px;height:48px;border:1px solid #CFC6B7;background:#FFFFFF;border-radius:2px;padding:0 14px;color:#171717;box-sizing:border-box}
+.f textarea{height:110px;padding:12px 14px;resize:vertical}
+.f input:focus,.f textarea:focus{outline:none;border-color:#171717;box-shadow:0 0 0 1px #171717}
+.hint{font-size:13px;color:#6B655C}
+.go{font-family:inherit;height:48px;padding:0 28px;border:none;border-radius:2px;background:#171717;color:#F5F1EA;font-size:13px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.back{font-family:inherit;height:48px;padding:0 24px;border:1px solid #171717;border-radius:2px;background:transparent;color:#171717;font-size:13px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.step{font-size:13px;color:#A39D93;display:flex;align-items:center;gap:8px}
+.step.on{color:#171717;font-weight:600}.step.done{color:#3F6B4E}
+.sum dt{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#6B655C}.sum dd{margin:2px 0 14px;font-size:15px}
+@media (max-width:900px){.stack{grid-template-columns:minmax(0,1fr) !important}}
+</style>
+</helmet>
+<div style="min-height: 100%;">
+  <div style="background: #171717; color: #A39D93; font-size: 12px; text-align: center; padding: 8px 16px;">Prototype · this flow works in Play · availability is example data</div>
+  <header style="border-bottom: 1px solid #E2DACB;">
+    <div class="wrap" style="display: flex; align-items: center; justify-content: space-between; height: 72px;">
+      <a href="Main.dc.html" aria-label="Buks Shot It home"><img src="/_blob/d4944810ddfa12f01b7b094a8d2b90dc" alt="Buks shot it." style="height: 22px; width: auto;"></a>
+      <a href="Main.dc.html" style="font-size: 14px; color: #6B655C;">Exit booking</a>
+    </div>
+  </header>
+
+  <sc-if value="{{done}}" hint-placeholder-val="{{false}}">
+    <section class="wrap" style="padding-top: 120px; padding-bottom: 160px; max-width: 760px; display: flex; flex-direction: column; gap: 20px;">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#3F6B4E" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>
+      <h1 class="serif" style="margin: 0; font-size: 56px;">Request received</h1>
+      <p style="margin: 0; font-size: 19px; line-height: 1.65;">Thank you. Your request for <strong>{{pkgName}}</strong> on <strong>{{dateLabel}}</strong> has been sent. I'll review it and reply by email to <strong>{{emailShown}}</strong>. If it's approved, the email will include a secure link to pay your retainer.</p>
+      <p style="margin: 0; font-size: 15px; color: #6B655C;">Please check your spam folder if you don't see the email.</p>
+      <a href="Main.dc.html" style="font-size: 15px; color: #171717; text-underline-offset: 4px;">Back to the home page</a>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{notDone}}" hint-placeholder-val="{{true}}">
+    <section class="wrap stack" style="display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: 56px; padding-top: 56px; padding-bottom: 120px; align-items: start;">
+      <div style="display: flex; flex-direction: column; gap: 32px;">
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <h1 class="serif" style="margin: 0; font-size: 48px;">Check your date</h1>
+          <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #3A3733; max-width: 62ch;">Send a booking request in five short steps. Nothing is charged now. I review every request, and once it's approved you'll receive a secure link to pay the 35% retainer that reserves your date.</p>
+          <ol style="list-style: none; margin: 8px 0 0; padding: 0; display: flex; gap: 24px; flex-wrap: wrap;" aria-label="Progress">
+            <sc-for list="{{steps}}" as="s" hint-placeholder-count="5">
+              <li class="{{s.cls}}" aria-current="{{s.current}}"><span style="width: 24px; height: 24px; border-radius: 50%; border: 1px solid currentColor; display: inline-flex; align-items: center; justify-content: center; font-size: 12px;">{{s.n}}</span>{{s.label}}</li>
+            </sc-for>
+          </ol>
+        </div>
+
+        <sc-if value="{{s1}}" hint-placeholder-val="{{true}}">
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            <h2 class="serif" style="margin: 0; font-size: 30px;">What would you like photographed?</h2>
+            <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px;" class="stack">
+              <sc-for list="{{services}}" as="v" hint-placeholder-count="4">
+                <button type="button" class="{{v.cls}}" aria-pressed="{{v.pressed}}" onClick="{{v.pick}}" style="justify-content: center;">{{v.label}}</button>
+              </sc-for>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <sc-for list="{{packages}}" as="p" hint-placeholder-count="3">
+                <button type="button" class="{{p.cls}}" aria-pressed="{{p.pressed}}" onClick="{{p.pick}}">
+                  <span style="display: flex; flex-direction: column; gap: 4px;"><strong style="font-size: 17px;">{{p.name}}</strong><span style="font-size: 14px; color: #6B655C;">{{p.desc}}</span></span>
+                  <span style="text-align: right; display: flex; flex-direction: column; gap: 4px;"><span class="serif" style="font-size: 24px; font-variant-numeric: tabular-nums;">{{p.price}}</span><span style="font-size: 13px; color: #6B655C;">{{p.ret}}</span></span>
+                </button>
+              </sc-for>
+            </div>
+            <sc-if value="{{isQuote}}" hint-placeholder-val="{{false}}">
+              <p style="margin: 0; padding: 14px 16px; background: #E3EAF1; color: #3B5D7A; font-size: 15px; border-radius: 2px;">Brand Content is quoted for each project. Tell me about it and I'll reply with a quote.</p>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{s2}}" hint-placeholder-val="{{false}}">
+          <div style="display: flex; flex-direction: column; gap: 20px;">
+            <h2 class="serif" style="margin: 0; font-size: 30px;">Choose a date</h2>
+            <p class="hint" style="margin: 0;">Open dates are shown in the calendar. A date closes once it has two sessions booked.</p>
+            <div class="stack" style="display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 32px;">
+              <div>
+                <strong style="display: block; margin-bottom: 12px; font-size: 16px;">December 2026</strong>
+                <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; font-size: 12px; color: #6B655C; text-align: center; margin-bottom: 6px;"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+                <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px;">
+                  <sc-for list="{{days}}" as="d" hint-placeholder-count="35">
+                    <button type="button" class="{{d.cls}}" aria-label="{{d.aria}}" aria-pressed="{{d.pressed}}" onClick="{{d.pick}}">{{d.n}}</button>
+                  </sc-for>
+                </div>
+                <p style="margin: 12px 0 0; font-size: 13px; color: #3A3733;">Amber outline: one session left · Grey: fully booked · Faded: not available</p>
+                <sc-if value="{{showFull}}" hint-placeholder-val="{{false}}">
+                  <p role="status" style="margin: 12px 0 0; padding: 12px 14px; background: #F3E9D6; color: #8A5A12; font-size: 14px; border-radius: 2px;">This date is fully booked. Please choose another, or send a message if your date is flexible.</p>
+                </sc-if>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <strong style="font-size: 15px;">{{dateLabel}} · start time</strong>
+                <p class="hint" style="margin: 0;">{{dateNote}}</p>
+                <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;">
+                  <sc-for list="{{times}}" as="t" hint-placeholder-count="6">
+                    <button type="button" class="{{t.cls}}" aria-pressed="{{t.pressed}}" onClick="{{t.pick}}">{{t.label}}</button>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{s3}}" hint-placeholder-val="{{false}}">
+          <div style="display: flex; flex-direction: column; gap: 20px; max-width: 640px;">
+            <h2 class="serif" style="margin: 0; font-size: 30px;">Your details</h2>
+            <div class="f"><label for="b-name">Your name</label><input id="b-name" value="Jordan Example"></div>
+            <div class="f"><label for="b-email">Email address</label><input id="b-email" type="email" value="jordan@example.com"><span class="hint">Your booking updates and payment link are sent here.</span></div>
+            <div class="f"><label for="b-phone">Phone number</label><input id="b-phone" type="tel" value="(202) 555-0147"><span class="hint">For the day of the session.</span></div>
+            <div class="f"><label for="b-partner">Partner's name <span style="font-weight: 400; color: #6B655C;">optional</span></label><input id="b-partner"></div>
+            <div class="f"><label for="b-source">How did you find Buks Shot It? <span style="font-weight: 400; color: #6B655C;">optional</span></label><input id="b-source"></div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{s4}}" hint-placeholder-val="{{false}}">
+          <div style="display: flex; flex-direction: column; gap: 20px; max-width: 640px;">
+            <h2 class="serif" style="margin: 0; font-size: 30px;">About the session</h2>
+            <div class="f"><label for="b-loc">Where is the session?</label><input id="b-loc" value="Venue name and address"><span class="hint">Travel outside the DMV is quoted separately.</span></div>
+            <div class="f"><label for="b-guests">Approximate number of guests</label><input id="b-guests" value="120"></div>
+            <fieldset style="border: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px;">
+              <legend style="font-size: 14px; font-weight: 500; margin-bottom: 10px;">Anything to add?</legend>
+              <label style="display: flex; gap: 10px; align-items: center; font-size: 15px;"><input type="checkbox" style="width: 20px; height: 20px; accent-color: #171717;"> Additional shooting hour ($250)</label>
+              <label style="display: flex; gap: 10px; align-items: center; font-size: 15px;"><input type="checkbox" style="width: 20px; height: 20px; accent-color: #171717;"> Additional photographer (+$500–$900)</label>
+              <label style="display: flex; gap: 10px; align-items: center; font-size: 15px;"><input type="checkbox" style="width: 20px; height: 20px; accent-color: #171717;"> Extra edited images ($20 each)</label>
+            </fieldset>
+            <div class="f"><label for="b-notes">Anything else I should know? <span style="font-weight: 400; color: #6B655C;">optional</span></label><textarea id="b-notes"></textarea></div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{s5}}" hint-placeholder-val="{{false}}">
+          <div style="display: flex; flex-direction: column; gap: 20px; max-width: 640px;">
+            <h2 class="serif" style="margin: 0; font-size: 30px;">Review your request</h2>
+            <p style="margin: 0; font-size: 16px; line-height: 1.6;">Check the summary on the right. Add-ons and travel are confirmed with you before the date is reserved.</p>
+            <label style="display: flex; gap: 12px; align-items: flex-start; font-size: 15px; line-height: 1.5; background: #FFFFFF; border: 1px solid #E2DACB; padding: 16px; border-radius: 2px;"><input type="checkbox" checked="{{agreed}}" onChange="{{toggleAgree}}" style="width: 20px; height: 20px; accent-color: #171717; margin-top: 2px;"><span>I have read the <a href="Main.dc.html">Booking terms</a>, including the 35% non-refundable retainer.</span></label>
+            <p class="hint" style="margin: 0;">Nothing is charged now. Your date is reserved only once the retainer is paid.</p>
+          </div>
+        </sc-if>
+
+        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; border-top: 1px solid #E2DACB; padding-top: 24px;">
+          <sc-if value="{{canBack}}" hint-placeholder-val="{{false}}"><button type="button" class="back" onClick="{{back}}">Back</button></sc-if>
+          <button type="button" class="go" onClick="{{next}}" style="opacity: {{goOpacity}};">{{nextLabel}}</button>
+          <span class="hint">{{nextHint}}</span>
+        </div>
+      </div>
+
+      <aside class="sum" style="background: #FFFFFF; border: 1px solid #E2DACB; padding: 28px; position: sticky; top: 24px;">
+        <p style="margin: 0 0 18px; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: #6B655C;">Your request</p>
+        <dl style="margin: 0;">
+          <dt>Service</dt><dd>{{svcName}}</dd>
+          <dt>Package</dt><dd>{{pkgName}}</dd>
+          <dt>Date and time</dt><dd>{{dateTime}}</dd>
+          <dt>Price</dt><dd class="serif" style="font-size: 26px;">{{pkgPrice}}</dd>
+          <dt>Retainer to reserve</dt><dd style="font-weight: 600;">{{pkgRet}}</dd>
+        </dl>
+        <p style="margin: 6px 0 0; font-size: 13px; color: #6B655C; line-height: 1.5;">The balance is due before your photographs are delivered.</p>
+      </aside>
+    </section>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1500}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { step: 1, svc: 'Wedding', pkg: 1, day: 10, time: '9:00 AM', tried: 0, agreed: false, done: false };
+  }
+  catalog() {
+    return {
+      Wedding: [
+        { name: 'Essential', desc: '4 hours · 1 photographer · 250+ edited images', price: '$1,900', ret: 'Retainer $665' },
+        { name: 'Classic', desc: '6 hours · timeline assistance · 400+ edited images', price: '$3,000', ret: 'Retainer $1,050' },
+        { name: 'Signature', desc: '8 hours · engagement session · 600+ edited images', price: '$4,200', ret: 'Retainer $1,470' }
+      ],
+      'Portrait session': [
+        { name: 'Portrait session', desc: '[Placeholder: session details]', price: 'On request', ret: '35% of the total' }
+      ],
+      Event: [
+        { name: 'Hourly Coverage', desc: '35 edited images · 3–4 business days', price: '$100 / hour', ret: '35% of the total' },
+        { name: 'Half Day (8 Hours)', desc: 'Edited gallery · highlight images · 70 edited images', price: '$750', ret: 'Retainer $262.50' },
+        { name: 'Full Day (12 Hours)', desc: 'Event documentation · online delivery · 120 edited images', price: '$1,800', ret: 'Retainer $630' }
+      ],
+      Products: [
+        { name: 'Simple Product Images', desc: 'Edited images on a white background', price: '$40 / image', ret: '35% of the total' },
+        { name: 'Standard Product Package', desc: 'Up to 10 edited images', price: '$350', ret: 'Retainer $122.50' },
+        { name: 'Brand Content Package', desc: 'Styled product imagery and creative direction', price: 'From $800', ret: 'By quote' }
+      ]
+    };
+  }
+  status(n) {
+    if ([5, 19].indexOf(n) >= 0) return 'full';
+    if ([6, 12, 13].indexOf(n) >= 0) return 'one';
+    if ([24, 25, 31].indexOf(n) >= 0) return 'blocked';
+    return 'open';
+  }
+  renderVals() {
+    const st = this.state;
+    const cat = this.catalog();
+    const list = cat[st.svc];
+    const pk = list[Math.min(st.pkg, list.length - 1)];
+    const isQuote = pk.name === 'Brand Content Package';
+    const labels = ['Service', 'Date', 'Your details', 'Session', 'Review'];
+    const steps = labels.map((l, i) => ({ n: String(i + 1), label: l, cls: 'step' + (i + 1 === st.step ? ' on' : i + 1 < st.step ? ' done' : ''), current: i + 1 === st.step ? 'step' : 'false' }));
+    const services = Object.keys(cat).map((k) => ({ label: k, cls: 'opt' + (k === st.svc ? ' on' : ''), pressed: k === st.svc ? 'true' : 'false', pick: () => this.setState({ svc: k, pkg: 0 }) }));
+    const packages = list.map((p, i) => ({ ...p, cls: 'opt' + (i === st.pkg ? ' on' : ''), pressed: i === st.pkg ? 'true' : 'false', pick: () => this.setState({ pkg: i }) }));
+    const days = [{ n: '', cls: 'day empty', aria: 'empty', pressed: 'false', pick: () => {} }];
+    for (let n = 1; n <= 31; n++) {
+      const s = this.status(n);
+      const sel = st.day === n;
+      const word = s === 'full' ? 'fully booked' : s === 'one' ? 'one session left' : s === 'blocked' ? 'not available' : 'open';
+      days.push({ n: String(n), cls: 'day ' + (sel ? 'sel' : s), aria: 'December ' + n + ', ' + word, pressed: sel ? 'true' : 'false', pick: () => { if (s === 'full') { this.setState({ tried: n }); return; } if (s === 'blocked') return; this.setState({ day: n, time: '', tried: 0 }); } });
+    }
+    const one = this.status(st.day) === 'one';
+    const taken = one ? ['11:00 AM', '1:00 PM'] : [];
+    const times = ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM', '7:00 PM'].map((l) => { const off = taken.indexOf(l) >= 0; const sel = st.time === l; return { label: l, pressed: sel ? 'true' : 'false', cls: 'time' + (off ? ' off' : sel ? ' sel' : ''), pick: () => { if (!off) this.setState({ time: l }); } }; });
+    const ok = st.step === 2 ? !!st.time : st.step === 5 ? st.agreed : true;
+    const dateLabel = 'December ' + st.day + ', 2026';
+    return {
+      done: st.done, notDone: !st.done,
+      steps, services, packages, isQuote, days, times,
+      s1: st.step === 1, s2: st.step === 2, s3: st.step === 3, s4: st.step === 4, s5: st.step === 5,
+      showFull: st.tried > 0,
+      dateLabel,
+      dateNote: one ? 'One session is already booked this day, so only times that fit around it are shown.' : 'Two sessions are available on this date.',
+      agreed: st.agreed,
+      toggleAgree: () => this.setState({ agreed: !st.agreed }),
+      canBack: st.step > 1,
+      back: () => this.setState({ step: st.step - 1 }),
+      next: () => { if (!ok) return; if (st.step === 5) this.setState({ done: true }); else this.setState({ step: st.step + 1 }); },
+      nextLabel: st.step === 5 ? 'Send booking request' : 'Continue',
+      nextHint: !ok ? (st.step === 2 ? 'Choose a start time to continue.' : 'Please confirm you have read the booking terms.') : '',
+      goOpacity: ok ? 1 : 0.45,
+      svcName: st.svc, pkgName: pk.name, pkgPrice: pk.price, pkgRet: pk.ret,
+      dateTime: st.time ? dateLabel + ', ' + st.time : dateLabel,
+      emailShown: 'jordan@example.com'
+    };
+  }
+}
+</script>
+</body>
+</html>

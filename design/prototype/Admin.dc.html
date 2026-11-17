@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Buks Shot It · Admin overview</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400;0,500;1,400&amp;family=Schibsted+Grotesk:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F5F1EA;color:#171717;font-family:'Schibsted Grotesk','Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#7D6240}
+.serif{font-family:'Ibarra Real Nova',Georgia,serif;font-weight:500}
+.side a{display:flex;align-items:center;gap:10px;height:40px;padding:0 12px;border-radius:4px;color:#D9D4CB;text-decoration:none;font-size:14px}
+.side a:hover{background:#24221F;color:#F5F1EA}
+.side a.on{background:#24221F;color:#F5F1EA;box-shadow:inset 2px 0 0 #A88962}
+.panel{background:#FFFFFF;border:1px solid #E2DACB;border-radius:4px}
+.kpi{padding:20px;display:flex;flex-direction:column;gap:6px}
+.kpi .v{font-family:'Ibarra Real Nova',Georgia,serif;font-weight:500;font-size:34px;font-variant-numeric:tabular-nums;line-height:1.1}
+.kpi .l{font-size:13px;color:#6B655C}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;font-size:12px;font-weight:500;border-radius:2px;white-space:nowrap}
+.chip::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.c-pend{background:#F3E9D6;color:#8A5A12}.c-await{background:#E3EAF1;color:#3B5D7A}.c-conf{background:#E2ECE4;color:#3F6B4E}.c-dec{background:#F4E2DF;color:#A23B2E}
+table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+th{text-align:left;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#6B655C;padding:12px 16px;border-bottom:1px solid #E2DACB}
+td{padding:14px 16px;border-bottom:1px solid #EDE7DC;vertical-align:middle}
+.ok{font-family:inherit;height:36px;padding:0 14px;border:none;border-radius:2px;background:#171717;color:#F5F1EA;font-size:12px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.no{font-family:inherit;height:36px;padding:0 14px;border:1px solid #CFC6B7;border-radius:2px;background:#FFFFFF;color:#171717;font-size:12px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.cap{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:#6B655C}
+.cap i{display:flex;gap:3px}
+.cap b{width:14px;height:22px;border-radius:2px;background:#EDE7DC;display:block}
+.cap b.u{background:#171717}
+.box{overflow-x:auto}
+</style>
+</helmet>
+<div style="min-height: 100%; display: flex; flex-wrap: wrap;">
+  <aside class="side" style="flex: 1 1 240px; max-width: 100%; background: #171717; color: #F5F1EA; padding: 24px 16px; box-sizing: border-box; display: flex; flex-direction: column; gap: 4px;">
+    <img src="/_blob/681bea5f5762acdf6eac4b48a4bbc999" alt="Buks shot it." style="height: 22px; width: auto; align-self: flex-start; margin: 0 12px 28px;">
+    <a class="on" href="Admin.dc.html" aria-current="page">Overview</a>
+    <a href="Admin.dc.html">Bookings <span style="margin-left: auto; background: #A88962; color: #171717; font-size: 11px; padding: 1px 7px; border-radius: 10px;">3</span></a>
+    <a href="Admin.dc.html">Calendar</a>
+    <a href="Admin.dc.html">Clients</a>
+    <a href="Admin.dc.html">Payments</a>
+    <a href="Admin.dc.html">Services and packages</a>
+    <a href="Admin.dc.html">Portfolio</a>
+    <a href="Admin.dc.html">Client galleries</a>
+    <a href="Admin.dc.html">Enquiries <span style="margin-left: auto; background: #A88962; color: #171717; font-size: 11px; padding: 1px 7px; border-radius: 10px;">2</span></a>
+    <a href="Admin.dc.html">Settings</a>
+    <a href="Main.dc.html" style="margin-top: 24px; color: #A39D93;">View website</a>
+  </aside>
+
+  <main style="flex: 999 1 640px; min-width: 0; padding: 32px clamp(16px, 3vw, 40px) 64px; box-sizing: border-box; display: flex; flex-direction: column; gap: 24px;">
+    <div style="display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap;">
+      <div>
+        <p style="margin: 0 0 6px; font-size: 13px; color: #6B655C;">Monday, December 7, 2026 · example data</p>
+        <h1 class="serif" style="margin: 0; font-size: 40px;">Overview</h1>
+      </div>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <a href="Admin.dc.html" style="display: inline-flex; align-items: center; height: 40px; padding: 0 16px; border: 1px solid #171717; color: #171717; text-decoration: none; font-size: 13px; border-radius: 2px;">Block a date</a>
+        <a href="Admin.dc.html" style="display: inline-flex; align-items: center; height: 40px; padding: 0 16px; background: #171717; color: #F5F1EA; text-decoration: none; font-size: 13px; border-radius: 2px;">New gallery</a>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;">
+      <div class="panel kpi"><span class="l">Pending requests</span><span class="v">{{pendingCount}}</span><span style="font-size: 12px; color: #8A5A12;">Oldest waiting 2 days</span></div>
+      <div class="panel kpi"><span class="l">Upcoming sessions (30 days)</span><span class="v">7</span><span style="font-size: 12px; color: #6B655C;">Next: Thu, Dec 10</span></div>
+      <div class="panel kpi"><span class="l">Bookings this month</span><span class="v">9</span><span style="font-size: 12px; color: #6B655C;">November: 6</span></div>
+      <div class="panel kpi"><span class="l">Collected this month</span><span class="v">$8,415</span><span style="font-size: 12px; color: #6B655C;">Retainers and balances</span></div>
+      <div class="panel kpi"><span class="l">Outstanding balances</span><span class="v">$11,640</span><span style="font-size: 12px; color: #6B655C;">Across 6 bookings</span></div>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start;">
+      <section class="panel" style="flex: 999 1 560px; min-width: 0;">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 18px 16px 6px;">
+          <h2 style="margin: 0; font-size: 17px; font-weight: 600;">Requests to review</h2>
+          <a href="Admin.dc.html" style="font-size: 13px;">All bookings</a>
+        </div>
+        <div class="box">
+          <table>
+            <thead><tr><th>Client</th><th>Service</th><th>Date</th><th>Day load</th><th>Status</th><th><span style="position: absolute; left: -9999px;">Actions</span></th></tr></thead>
+            <tbody>
+              <sc-for list="{{requests}}" as="r" hint-placeholder-count="3">
+                <tr>
+                  <td><strong style="font-weight: 600;">{{r.client}}</strong><br><span style="color: #6B655C; font-size: 13px;">{{r.received}}</span></td>
+                  <td>{{r.service}}<br><span style="color: #6B655C; font-size: 13px;">{{r.price}}</span></td>
+                  <td>{{r.date}}</td>
+                  <td><span style="font-size: 13px; color: {{r.loadColor}};">{{r.load}}</span></td>
+                  <td><span class="{{r.chip}}">{{r.status}}</span></td>
+                  <td style="text-align: right; white-space: nowrap;">
+                    <sc-if value="{{r.pending}}" hint-placeholder-val="{{true}}">
+                      <span style="display: inline-flex; gap: 6px;"><button type="button" class="ok" onClick="{{r.approve}}">Approve</button><button type="button" class="no" onClick="{{r.decline}}">Decline</button></span>
+                    </sc-if>
+                  </td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin: 0; padding: 12px 16px 16px; font-size: 13px; color: #6B655C;">Approving sends the client a retainer link and holds the date for 72 hours.</p>
+      </section>
+
+      <section class="panel" style="flex: 1 1 300px; min-width: 0; padding: 18px 16px; display: flex; flex-direction: column; gap: 14px;">
+        <h2 style="margin: 0; font-size: 17px; font-weight: 600;">Next 14 days</h2>
+        <p style="margin: 0; font-size: 13px; color: #6B655C;">Each bar is one session slot. Two filled means the day is closed.</p>
+        <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px 4px;">
+          <sc-for list="{{capacity}}" as="c" hint-placeholder-count="14">
+            <div class="cap" aria-label="{{c.aria}}"><i><b class="{{c.a}}"></b><b class="{{c.b}}"></b></i><span style="font-variant-numeric: tabular-nums;">{{c.d}}</span></div>
+          </sc-for>
+        </div>
+        <div style="display: flex; gap: 16px; font-size: 12px; color: #3A3733;"><span><b style="display: inline-block; width: 10px; height: 10px; background: #171717; border-radius: 2px; margin-right: 6px;"></b>Booked</span><span><b style="display: inline-block; width: 10px; height: 10px; background: #EDE7DC; border-radius: 2px; margin-right: 6px;"></b>Open</span></div>
+        <p style="margin: 4px 0 0; font-size: 14px;"><strong>10 open dates</strong> in the next two weeks.</p>
+      </section>
+    </div>
+
+    <section class="panel">
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 18px 16px 6px;">
+        <h2 style="margin: 0; font-size: 17px; font-weight: 600;">Upcoming sessions</h2>
+        <a href="Admin.dc.html" style="font-size: 13px;">Calendar</a>
+      </div>
+      <div class="box">
+        <table>
+          <thead><tr><th>Date</th><th>Client</th><th>Service</th><th>Booking</th><th>Payment</th><th style="text-align: right;">Balance due</th></tr></thead>
+          <tbody>
+            <tr><td>Thu, Dec 10 · 11:00 AM</td><td>Morgan Example</td><td>Portrait session</td><td><span class="chip c-conf">Confirmed</span></td><td>Retainer paid</td><td style="text-align: right;">$0.00</td></tr>
+            <tr><td>Sat, Dec 12 · 2:00 PM</td><td>Taylor &amp; Kim Example</td><td>Classic wedding</td><td><span class="chip c-conf">Confirmed</span></td><td>Retainer paid</td><td style="text-align: right;">$1,950.00</td></tr>
+            <tr><td>Sun, Dec 13 · 9:00 AM</td><td>Example Coffee Co.</td><td>Standard Product Package</td><td><span class="chip c-await">Awaiting payment</span></td><td>Link sent, 41 h left</td><td style="text-align: right;">$350.00</td></tr>
+            <tr><td>Fri, Dec 18 · 6:00 PM</td><td>Example Foundation</td><td>Half Day (8 Hours)</td><td><span class="chip c-conf">Confirmed</span></td><td>Paid in full</td><td style="text-align: right;">$0.00</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin: 0; padding: 12px 16px 16px; font-size: 13px; color: #6B655C;">Booking status and payment status are shown separately, as required for Deliverable 10.</p>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1600}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { decided: {} };
+  }
+  renderVals() {
+    const base = [
+      { id: 'a', client: 'Riley Example', received: 'Received 2 days ago', service: 'Signature wedding', price: '$4,200', date: 'Sat, Jun 12, 2027', load: 'Open day', loadColor: '#3F6B4E' },
+      { id: 'b', client: 'Example Studio LLC', received: 'Received yesterday', service: 'Brand Content (quote)', price: 'From $800', date: 'Wed, Jan 20, 2027', load: 'One session left', loadColor: '#8A5A12' },
+      { id: 'c', client: 'Casey Example', received: 'Received today', service: 'Hourly Coverage, 3 hours', price: '$300', date: 'Fri, Dec 18, 2026', load: 'One session left', loadColor: '#8A5A12' }
+    ];
+    const d = this.state.decided;
+    const requests = base.map((r) => {
+      const s = d[r.id];
+      return {
+        ...r,
+        pending: !s,
+        status: s === 'ok' ? 'Awaiting payment' : s === 'no' ? 'Declined' : 'Pending',
+        chip: s === 'ok' ? 'chip c-await' : s === 'no' ? 'chip c-dec' : 'chip c-pend',
+        approve: () => this.setState({ decided: { ...d, [r.id]: 'ok' } }),
+        decline: () => this.setState({ decided: { ...d, [r.id]: 'no' } })
+      };
+    });
+    const loads = [0, 0, 0, 1, 0, 2, 1, 0, 0, 0, 0, 1, 0, 0];
+    const capacity = loads.map((n, i) => ({ d: String(7 + i), a: n >= 1 ? 'u' : '', b: n >= 2 ? 'u' : '', aria: 'December ' + (7 + i) + ': ' + n + ' of 2 sessions booked' }));
+    return { requests, pendingCount: String(requests.filter((r) => r.pending).length), capacity };
+  }
+}
+</script>
+</body>
+</html>

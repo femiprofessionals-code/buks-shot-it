@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Buks Shot It · Client gallery</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400;0,500;1,400&amp;family=Schibsted+Grotesk:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#FFFFFF;color:#171717;font-family:'Schibsted Grotesk','Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#7D6240}
+img{display:block;max-width:100%}
+.serif{font-family:'Ibarra Real Nova',Georgia,serif;font-weight:500}
+.wrap{max-width:1320px;margin:0 auto;padding:0 clamp(16px,4vw,48px);box-sizing:border-box}
+.f{display:flex;flex-direction:column;gap:8px}
+.f label{font-size:14px;font-weight:500}
+.f input{font-family:inherit;font-size:16px;height:48px;border:1px solid #CFC6B7;background:#FFFFFF;border-radius:2px;padding:0 14px;color:#171717;box-sizing:border-box;width:100%}
+.go{font-family:inherit;height:48px;padding:0 28px;border:none;border-radius:2px;background:#171717;color:#F5F1EA;font-size:13px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+.ghost{font-family:inherit;height:44px;padding:0 18px;border:1px solid #171717;border-radius:2px;background:transparent;color:#171717;font-size:13px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.ph{position:relative}
+.dl{position:absolute;right:10px;bottom:10px;width:44px;height:44px;border-radius:2px;border:none;background:rgba(23,23,23,.78);display:flex;align-items:center;justify-content:center;cursor:pointer}
+@media (max-width:860px){.g{grid-template-columns:repeat(2,minmax(0,1fr)) !important}}
+</style>
+</helmet>
+<div style="min-height: 100%;">
+  <div style="background: #171717; color: #A39D93; font-size: 12px; text-align: center; padding: 8px 16px;">Prototype · example client and temporary images · press Open gallery in Play</div>
+  <header style="border-bottom: 1px solid #E2DACB;">
+    <div class="wrap" style="display: flex; align-items: center; justify-content: space-between; height: 72px;">
+      <a href="Main.dc.html" aria-label="Buks Shot It home"><img src="/_blob/d4944810ddfa12f01b7b094a8d2b90dc" alt="Buks shot it." style="height: 22px; width: auto;"></a>
+      <sc-if value="{{in}}" hint-placeholder-val="{{false}}"><button type="button" class="ghost" onClick="{{signOut}}" style="border-color: #CFC6B7; color: #6B655C;">Sign out</button></sc-if>
+    </div>
+  </header>
+
+  <sc-if value="{{out}}" hint-placeholder-val="{{true}}">
+    <section style="background: #F5F1EA; min-height: 760px; display: flex; align-items: center; justify-content: center; padding: 64px 16px;">
+      <div style="width: 100%; max-width: 440px; background: #FFFFFF; border: 1px solid #E2DACB; padding: 40px; display: flex; flex-direction: column; gap: 20px; box-sizing: border-box;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#171717" stroke-width="1.5" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>
+        <h1 class="serif" style="margin: 0; font-size: 36px;">Your gallery</h1>
+        <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #3A3733;">Your private gallery link and access details were sent by email when your photographs were ready.</p>
+        <div class="f"><label for="g-email">Email address</label><input id="g-email" type="email" value="jordan@example.com"></div>
+        <div class="f"><label for="g-pass">Gallery password</label><input id="g-pass" type="password" value="example-pass"></div>
+        <button type="button" class="go" onClick="{{signIn}}">Open gallery</button>
+        <p style="margin: 0; font-size: 14px; color: #6B655C;">Can't find your link? <a href="Contact.dc.html">Contact me</a> and I'll resend it.</p>
+      </div>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{in}}" hint-placeholder-val="{{false}}">
+    <section class="wrap" style="padding-top: 72px; padding-bottom: 40px; display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap;">
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <p style="margin: 0; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: #6B655C;">Private gallery</p>
+        <h1 class="serif" style="margin: 0; font-size: 56px;">Jordan &amp; Sam</h1>
+        <p style="margin: 0; font-size: 15px; color: #3A3733; font-variant-numeric: tabular-nums;">412 photographs · Delivered December 28, 2026 · Available until [Placeholder: availability period]</p>
+      </div>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button type="button" class="go" onClick="{{dlAll}}" style="display: inline-flex; align-items: center; gap: 10px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F5F1EA" stroke-width="1.5" aria-hidden="true"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M4.5 19.5h15"/></svg>Download all</button>
+      </div>
+    </section>
+    <sc-if value="{{preparing}}" hint-placeholder-val="{{false}}">
+      <div class="wrap"><p role="status" style="margin: 0 0 24px; padding: 14px 16px; background: #E3EAF1; color: #3B5D7A; font-size: 15px; border-radius: 2px;">Your photographs are being prepared as a ZIP file. Large galleries can take a minute.</p></div>
+    </sc-if>
+    <section class="wrap" style="padding-bottom: 96px;">
+      <div class="g" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px;">
+        <div class="ph"><img src="/_blob/0b463668c0ab27a0e1176f4f30e45729" alt="Temporary image 1" style="width: 100%; aspect-ratio: 1; object-fit: cover;"><button type="button" class="dl" aria-label="Download photograph 1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F5F1EA" stroke-width="1.5" aria-hidden="true"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M4.5 19.5h15"/></svg></button></div>
+        <div class="ph"><img src="/_blob/08f2fca402c694168b486a866cc01957" alt="Temporary image 2" style="width: 100%; aspect-ratio: 1; object-fit: cover;"><button type="button" class="dl" aria-label="Download photograph 2"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F5F1EA" stroke-width="1.5" aria-hidden="true"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M4.5 19.5h15"/></svg></button></div>
+        <div class="ph"><img src="/_blob/63e5475726cb26be5d5a139d89382805" alt="Temporary image 3" style="width: 100%; aspect-ratio: 1; object-fit: cover;"><button type="button" class="dl" aria-label="Download photograph 3"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F5F1EA" stroke-width="1.5" aria-hidden="true"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M4.5 19.5h15"/></svg></button></div>
+        <div class="ph"><img src="/_blob/42429222ff9d8dd770f65a9fe9b989d8" alt="Temporary image 4" style="width: 100%; aspect-ratio: 1; object-fit: cover;"><button type="button" class="dl" aria-label="Download photograph 4"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F5F1EA" stroke-width="1.5" aria-hidden="true"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M4.5 19.5h15"/></svg></button></div>
+        <div class="ph"><img src="/_blob/85e485c3b4308d1cbd2f16ed21f7b276" alt="Temporary image 5" style="width: 100%; aspect-ratio: 1; object-fit: cover;"><button type="button" class="dl" aria-label="Download photograph 5"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F5F1EA" stroke-width="1.5" aria-hidden="true"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M4.5 19.5h15"/></svg></button></div>
+        <div class="ph"><img src="/_blob/7ac5e70474d0516f136b6822c6d5d99c" alt="Temporary image 6" style="width: 100%; aspect-ratio: 1; object-fit: cover;"><button type="button" class="dl" aria-label="Download photograph 6"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F5F1EA" stroke-width="1.5" aria-hidden="true"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M4.5 19.5h15"/></svg></button></div>
+        <div class="ph"><img src="/_blob/ba9c901ebf99c7699ff137b2d901e015" alt="Temporary image 7" style="width: 100%; aspect-ratio: 1; object-fit: cover;"><button type="button" class="dl" aria-label="Download photograph 7"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F5F1EA" stroke-width="1.5" aria-hidden="true"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M4.5 19.5h15"/></svg></button></div>
+        <div class="ph"><img src="/_blob/ae1e043bf4d428cec20f36044f5981f4" alt="Temporary image 8" style="width: 100%; aspect-ratio: 1; object-fit: cover;"><button type="button" class="dl" aria-label="Download photograph 8"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F5F1EA" stroke-width="1.5" aria-hidden="true"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M4.5 19.5h15"/></svg></button></div>
+      </div>
+      <p style="margin: 24px 0 0; font-size: 14px; color: #6B655C;">Showing 8 of 412 · more load as you scroll</p>
+    </section>
+    <section style="background: #F5F1EA; border-top: 1px solid #E2DACB;">
+      <div class="wrap" style="padding-top: 56px; padding-bottom: 56px; display: flex; flex-direction: column; gap: 16px;">
+        <p style="margin: 0; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: #6B655C;">Other gallery states</p>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;" class="g">
+          <div style="background: #FFFFFF; border: 1px solid #E2DACB; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+            <strong class="serif" style="font-size: 24px;">Your gallery is almost ready.</strong>
+            <p style="margin: 0; font-size: 15px; color: #3A3733;">The remaining balance of $1,950 is due before your photographs can be delivered.</p>
+            <a href="Gallery.dc.html" style="align-self: flex-start; display: inline-flex; align-items: center; height: 44px; padding: 0 20px; background: #171717; color: #F5F1EA; text-decoration: none; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; border-radius: 2px;">Pay balance</a>
+          </div>
+          <div style="background: #FFFFFF; border: 1px solid #E2DACB; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+            <strong class="serif" style="font-size: 24px;">This gallery is no longer available.</strong>
+            <p style="margin: 0; font-size: 15px; color: #3A3733;">Please contact me if you need access again.</p>
+          </div>
+        </div>
+        <p style="margin: 8px 0 0; font-size: 15px;">Thank you for choosing Buks Shot It. When you're ready for your next session: <a href="Booking.dc.html">Check your date</a>.</p>
+      </div>
+    </section>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1900}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { signedIn: false, preparing: false }; }
+  renderVals() {
+    const s = this.state;
+    return {
+      in: s.signedIn, out: !s.signedIn, preparing: s.preparing,
+      signIn: () => this.setState({ signedIn: true }),
+      signOut: () => this.setState({ signedIn: false, preparing: false }),
+      dlAll: () => this.setState({ preparing: true })
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Buks Shot It · Portfolio</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400;0,500;1,400&amp;family=Schibsted+Grotesk:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F5F1EA;color:#171717;font-family:'Schibsted Grotesk','Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#7D6240}a:hover{color:#5E4930}
+img{display:block;max-width:100%}
+.serif{font-family:'Ibarra Real Nova',Georgia,serif;font-weight:500}
+.wrap{max-width:1320px;margin:0 auto;padding:0 clamp(16px,4vw,48px);box-sizing:border-box}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:48px;padding:0 26px;border-radius:2px;font-size:13px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border:1px solid transparent;box-sizing:border-box;white-space:nowrap}
+.btn-p{background:#171717;color:#F5F1EA}.btn-p:hover{background:#2E2C29;color:#F5F1EA}
+.nav a{color:#171717;text-decoration:none}.nav a:hover{color:#7D6240}
+.filter{font-family:inherit;font-size:14px;height:44px;padding:0 18px;border-radius:2px;border:1px solid #CFC6B7;background:transparent;color:#171717;cursor:pointer}
+.filter:hover{border-color:#171717}
+.filter.on{background:#171717;color:#F5F1EA;border-color:#171717}
+.tile{all:unset;cursor:zoom-in;display:block;position:relative}
+.tile:focus-visible{outline:2px solid #7D6240;outline-offset:3px}
+.lb button{font-family:inherit;background:none;border:1px solid #4A4743;color:#F5F1EA;height:44px;padding:0 18px;border-radius:2px;cursor:pointer;font-size:13px;letter-spacing:.1em;text-transform:uppercase}
+@media (max-width:860px){.hide-m{display:none !important}.grid3{grid-template-columns:repeat(2,minmax(0,1fr)) !important}}
+</style>
+</helmet>
+<div style="min-height: 100%;">
+  <div style="background: #171717; color: #A39D93; font-size: 12px; text-align: center; padding: 8px 16px;">Prototype · photographs are temporary stock images · filters and the viewer work in Play</div>
+  <header style="border-bottom: 1px solid #E2DACB;">
+    <div class="wrap" style="display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 84px;">
+      <a href="Main.dc.html" aria-label="Buks Shot It home"><img src="/_blob/d4944810ddfa12f01b7b094a8d2b90dc" alt="Buks shot it." style="height: 26px; width: auto;"></a>
+      <nav class="nav hide-m" aria-label="Main" style="display: flex; gap: 28px; font-size: 15px;">
+        <a href="Weddings.dc.html">Weddings</a><a href="Weddings.dc.html">Portraits</a><a href="Weddings.dc.html">Events</a><a href="Weddings.dc.html">Products</a><a href="Portfolio.dc.html" style="color: #7D6240; text-decoration: underline; text-underline-offset: 6px;" aria-current="page">Portfolio</a><a href="Pricing.dc.html">Pricing</a><a href="Main.dc.html">About</a>
+      </nav>
+      <div class="nav" style="display: flex; align-items: center; gap: 20px; font-size: 13px;">
+        <a class="hide-m" href="Contact.dc.html" style="color: #6B655C;">Contact</a>
+        <a class="hide-m" href="Gallery.dc.html" style="color: #6B655C;">Client gallery</a>
+        <a class="btn btn-p" href="Booking.dc.html">Check your date</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="wrap" style="padding-top: 88px; padding-bottom: 40px; display: flex; flex-direction: column; gap: 20px;">
+    <h1 class="serif" style="margin: 0; font-size: clamp(44px, 5.5vw, 76px); line-height: 1.04;">Portfolio</h1>
+    <p style="margin: 0; font-size: 19px; line-height: 1.65; max-width: 56ch;">Complete sessions, not only highlights. Choose a category, then open any gallery to see it from start to finish.</p>
+    <div role="group" aria-label="Filter by category" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px;">
+      <sc-for list="{{filters}}" as="f" hint-placeholder-count="5">
+        <button type="button" class="{{f.cls}}" aria-pressed="{{f.pressed}}" onClick="{{f.pick}}">{{f.label}}</button>
+      </sc-for>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-bottom: 112px;">
+    <div class="grid3" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;">
+      <sc-for list="{{shown}}" as="p" hint-placeholder-count="9">
+        <figure style="margin: 0; display: flex; flex-direction: column; gap: 10px;">
+          <button type="button" class="tile" onClick="{{p.open}}" aria-label="Open {{p.title}}">
+            <img src="{{p.src}}" alt="{{p.alt}}" style="width: 100%; aspect-ratio: 4 / 5; object-fit: cover;">
+          </button>
+          <figcaption style="display: flex; justify-content: space-between; gap: 12px; font-size: 14px;"><span style="font-weight: 500;">{{p.title}}</span><span style="color: #6B655C;">{{p.cat}}</span></figcaption>
+        </figure>
+      </sc-for>
+    </div>
+  </section>
+
+  <sc-if value="{{lbOpen}}" hint-placeholder-val="{{false}}">
+    <div class="lb" role="dialog" aria-modal="true" aria-label="Photograph viewer" style="position: fixed; inset: 0; background: #0E0E0E; color: #F5F1EA; display: flex; flex-direction: column; z-index: 50;">
+      <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 32px; min-height: 0;">
+        <img src="{{cur.src}}" alt="{{cur.alt}}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 16px 32px 24px; flex-wrap: wrap;">
+        <p style="margin: 0; font-size: 14px;"><span style="color: #A39D93; font-variant-numeric: tabular-nums; margin-right: 12px;">{{counter}}</span>{{cur.title}} · {{cur.cat}}</p>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" onClick="{{prev}}" aria-label="Previous photograph">Previous</button>
+          <button type="button" onClick="{{next}}" aria-label="Next photograph">Next</button>
+          <button type="button" onClick="{{close}}">Close</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <section style="background: #EDE7DC;">
+    <div class="wrap" style="padding-top: 88px; padding-bottom: 88px; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap;">
+      <h2 class="serif" style="margin: 0; font-size: 44px;">Like what you see?</h2>
+      <a class="btn btn-p" href="Booking.dc.html">Check your date</a>
+    </div>
+  </section>
+  <footer style="background: #171717; color: #A39D93;">
+    <div class="wrap" style="display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; padding-top: 40px; padding-bottom: 40px; font-size: 13px;">
+      <img src="/_blob/681bea5f5762acdf6eac4b48a4bbc999" alt="Buks shot it." style="height: 24px; width: auto;">
+      <span>Instagram @buks.shotit · cjokoro20@gmail.com</span>
+      <span>© 2026 Buks Shot It</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2700}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { cat: 'All', open: -1 };
+  }
+  photos() {
+    return [
+      { src: '/_blob/42429222ff9d8dd770f65a9fe9b989d8', cat: 'Weddings', title: 'A desert wedding', alt: 'Temporary image: a woman in a white dress in the desert' },
+      { src: '/_blob/e7318f538f01c778eb4accc5c2d3950e', cat: 'Portraits', title: 'Studio portrait', alt: 'Temporary image: close portrait of a woman' },
+      { src: '/_blob/318f2b206752fa27e33b17eeb150a9b8', cat: 'Products', title: 'Bakery launch', alt: 'Temporary image: styled flat lay of biscuits and flowers' },
+      { src: '/_blob/d4c05c9690aa6ea59077067a0bd4a8bc', cat: 'Events', title: 'Live performance', alt: 'Temporary image: stage lights over a crowd' },
+      { src: '/_blob/08f2fca402c694168b486a866cc01957', cat: 'Weddings', title: 'Seaside engagement', alt: 'Temporary image: a couple on a bench by the sea' },
+      { src: '/_blob/c07893629e8ce44562388e2e9274f87e', cat: 'Portraits', title: 'Family session', alt: 'Temporary image: a mother hugging her daughter on a street' },
+      { src: '/_blob/b7b4bc07705c5503b05272cae5123146', cat: 'Products', title: 'Coffee bar', alt: 'Temporary image: pour-over coffee being made' },
+      { src: '/_blob/97b4736f7bbcb3dfcdcbbb680790c15f', cat: 'Events', title: 'New Year celebration', alt: 'Temporary image: fireworks over a city' },
+      { src: '/_blob/251aa0e5b770f37b5631017ec3fb1309', cat: 'Portraits', title: 'Professional headshot', alt: 'Temporary image: a man in a suit holding a cup' },
+      { src: '/_blob/63e5475726cb26be5d5a139d89382805', cat: 'Weddings', title: 'Ceremony details', alt: 'Temporary image: a white calla lily' },
+      { src: '/_blob/73a7ed2b47b1a738b535f6676563eded', cat: 'Products', title: 'Minimal homeware', alt: 'Temporary image: a small vase on a white table against a blue wall' },
+      { src: '/_blob/979dca5288982387c719214c25e6b489', cat: 'Events', title: 'Conference arrivals', alt: 'Temporary image: a busy station hall' }
+    ];
+  }
+  renderVals() {
+    const cats = ['All', 'Weddings', 'Portraits', 'Events', 'Products'];
+    const all = this.photos();
+    const list = this.state.cat === 'All' ? all : all.filter((p) => p.cat === this.state.cat);
+    const shown = list.map((p, i) => ({ ...p, open: () => this.setState({ open: i }) }));
+    const idx = this.state.open;
+    const n = list.length;
+    return {
+      filters: cats.map((c) => ({ label: c, pressed: c === this.state.cat ? 'true' : 'false', cls: c === this.state.cat ? 'filter on' : 'filter', pick: () => this.setState({ cat: c, open: -1 }) })),
+      shown,
+      lbOpen: idx >= 0 && idx < n,
+      cur: idx >= 0 && idx < n ? list[idx] : list[0] || {},
+      counter: (idx + 1) + ' / ' + n,
+      prev: () => this.setState({ open: (idx - 1 + n) % n }),
+      next: () => this.setState({ open: (idx + 1) % n }),
+      close: () => this.setState({ open: -1 })
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Buks Shot It · Choose a date on a phone</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400;0,500;1,400&amp;family=Schibsted+Grotesk:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F5F1EA;color:#171717;font-family:'Schibsted Grotesk','Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#7D6240}
+.serif{font-family:'Ibarra Real Nova',Georgia,serif;font-weight:500}
+.day{font-family:inherit;width:100%;height:46px;border-radius:2px;border:1px solid transparent;background:#FFFFFF;color:#171717;font-size:15px;font-variant-numeric:tabular-nums;cursor:pointer;position:relative;padding:0}
+.day.one{border-color:#E0B36A}
+.day.full{background:#EDE7DC;color:#A39D93;text-decoration:line-through;cursor:not-allowed}
+.day.blocked{background:transparent;color:#C4BDB2;cursor:not-allowed}
+.day.sel{background:#171717;color:#F5F1EA;border-color:#171717}
+.day.empty{visibility:hidden}
+.time{font-family:inherit;height:44px;border:1px solid #CFC6B7;background:#FFFFFF;border-radius:2px;font-size:14px;cursor:pointer;color:#171717}
+.time.sel{background:#171717;color:#F5F1EA;border-color:#171717}
+.time.off{color:#A39D93;background:#EDE7DC;text-decoration:line-through;cursor:not-allowed}
+.key{display:inline-block;width:12px;height:12px;border-radius:2px;vertical-align:-1px;margin-right:6px}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; background: #F5F1EA; display: flex; flex-direction: column; box-sizing: border-box; overflow: hidden;">
+  <header style="display: flex; align-items: center; justify-content: space-between; height: 56px; padding: 0 16px; border-bottom: 1px solid #E2DACB; flex-shrink: 0;">
+    <img src="/_blob/d4944810ddfa12f01b7b094a8d2b90dc" alt="Buks shot it." style="height: 18px; width: auto;">
+    <a href="Home-Mobile.dc.html" style="font-size: 14px; color: #6B655C;">Exit</a>
+  </header>
+  <div style="padding: 16px 16px 0; flex-shrink: 0;">
+    <div style="display: flex; gap: 4px;" aria-hidden="true">
+      <span style="flex: 1; height: 3px; background: #171717;"></span><span style="flex: 1; height: 3px; background: #171717;"></span><span style="flex: 1; height: 3px; background: #CFC6B7;"></span><span style="flex: 1; height: 3px; background: #CFC6B7;"></span><span style="flex: 1; height: 3px; background: #CFC6B7;"></span>
+    </div>
+    <p style="margin: 10px 0 0; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: #6B655C;">Step 2 of 5 · Date</p>
+    <h1 class="serif" style="margin: 6px 0 4px; font-size: 30px;">Choose a date</h1>
+    <p style="margin: 0; font-size: 14px; color: #3A3733;">Classic wedding · $3,000 · <a href="Booking-Mobile.dc.html">Change</a></p>
+  </div>
+
+  <div style="flex: 1; overflow: auto; padding: 16px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+      <button type="button" aria-label="Previous month" style="width: 44px; height: 44px; border: 1px solid #CFC6B7; background: transparent; border-radius: 2px; cursor: pointer;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#171717" stroke-width="1.5" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <strong style="font-size: 16px;">December 2026</strong>
+      <button type="button" aria-label="Next month" style="width: 44px; height: 44px; border: 1px solid #CFC6B7; background: transparent; border-radius: 2px; cursor: pointer;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#171717" stroke-width="1.5" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; font-size: 11px; color: #6B655C; text-align: center; margin-bottom: 4px;">
+      <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px;">
+      <sc-for list="{{days}}" as="d" hint-placeholder-count="35">
+        <button type="button" class="{{d.cls}}" aria-label="{{d.aria}}" aria-pressed="{{d.pressed}}" onClick="{{d.pick}}">{{d.n}}</button>
+      </sc-for>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 12px; font-size: 12px; color: #3A3733;">
+      <span><span class="key" style="background: #FFFFFF; border: 1px solid #CFC6B7;"></span>Open</span>
+      <span><span class="key" style="background: #FFFFFF; border: 1px solid #E0B36A;"></span>One session left</span>
+      <span><span class="key" style="background: #EDE7DC;"></span>Fully booked</span>
+      <span><span class="key" style="border: 1px solid #E2DACB;"></span>Not available</span>
+    </div>
+
+    <sc-if value="{{hasDate}}" hint-placeholder-val="{{true}}">
+      <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+        <strong style="font-size: 15px;">{{dateLabel}} · start time</strong>
+        <p style="margin: 0; font-size: 13px; color: #6B655C;">{{dateNote}}</p>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;">
+          <sc-for list="{{times}}" as="t" hint-placeholder-count="6">
+            <button type="button" class="{{t.cls}}" aria-pressed="{{t.pressed}}" onClick="{{t.pick}}">{{t.label}}</button>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{showFull}}" hint-placeholder-val="{{false}}">
+      <p role="status" style="margin: 16px 0 0; padding: 12px 14px; background: #F3E9D6; color: #8A5A12; font-size: 14px; border-radius: 2px;">This date is fully booked. Please choose another, or send a message if your date is flexible.</p>
+    </sc-if>
+    <p style="margin: 16px 0 0; font-size: 12px; color: #6B655C;">Example availability for the prototype.</p>
+  </div>
+
+  <div style="padding: 12px 16px 20px; border-top: 1px solid #E2DACB; background: #F5F1EA; display: flex; gap: 10px; flex-shrink: 0;">
+    <a href="Booking-Mobile.dc.html" style="flex: 1; display: flex; align-items: center; justify-content: center; height: 48px; border: 1px solid #171717; color: #171717; text-decoration: none; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; border-radius: 2px;">Back</a>
+    <button type="button" disabled="{{notReady}}" style="flex: 2; height: 48px; background: {{continueBg}}; color: {{continueFg}}; border: none; font-family: inherit; font-size: 13px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; border-radius: 2px; cursor: pointer;">Continue</button>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { day: 10, time: '' , tried: 0 };
+  }
+  status(n) {
+    const full = [5, 19];
+    const one = [6, 12, 13];
+    const blocked = [24, 25, 31];
+    if (full.indexOf(n) >= 0) return 'full';
+    if (one.indexOf(n) >= 0) return 'one';
+    if (blocked.indexOf(n) >= 0) return 'blocked';
+    return 'open';
+  }
+  renderVals() {
+    const days = [];
+    days.push({ n: '', cls: 'day empty', aria: 'empty', pressed: 'false', pick: () => {} });
+    for (let n = 1; n <= 31; n++) {
+      const st = this.status(n);
+      const sel = this.state.day === n;
+      const word = st === 'full' ? 'fully booked' : st === 'one' ? 'one session left' : st === 'blocked' ? 'not available' : 'open';
+      days.push({
+        n: String(n),
+        cls: 'day ' + (sel ? 'sel' : st),
+        aria: 'December ' + n + ', ' + word,
+        pressed: sel ? 'true' : 'false',
+        pick: () => {
+          if (st === 'full') { this.setState({ tried: n }); return; }
+          if (st === 'blocked') return;
+          this.setState({ day: n, time: '', tried: 0 });
+        }
+      });
+    }
+    const d = this.state.day;
+    const one = this.status(d) === 'one';
+    const labels = ['9:00 AM', '11:00 AM', '1:00 PM', '3:00 PM', '5:00 PM', '7:00 PM'];
+    const taken = one ? ['11:00 AM', '1:00 PM'] : [];
+    const times = labels.map((l) => {
+      const off = taken.indexOf(l) >= 0;
+      const sel = this.state.time === l;
+      return { label: l, pressed: sel ? 'true' : 'false', cls: 'time' + (off ? ' off' : sel ? ' sel' : ''), pick: () => { if (!off) this.setState({ time: l }); } };
+    });
+    const ready = !!this.state.time;
+    return {
+      days,
+      hasDate: d > 0,
+      dateLabel: 'December ' + d,
+      dateNote: one ? 'One session is already booked this day, so only times that fit around it are shown.' : 'Two sessions are available on this date.',
+      times,
+      showFull: this.state.tried > 0,
+      notReady: !ready,
+      continueBg: ready ? '#171717' : '#CFC6B7',
+      continueFg: ready ? '#F5F1EA' : '#6B655C'
+    };
+  }
+}
+</script>
+</body>
+</html>
