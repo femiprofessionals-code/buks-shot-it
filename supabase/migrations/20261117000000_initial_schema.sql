@@ -41,7 +41,8 @@ create table public.settings (
   daily_capacity_units  smallint not null default 2  check (daily_capacity_units between 0 and 10),
   hold_hours            smallint not null default 72 check (hold_hours between 1 and 336),
   retainer_percent      numeric(5,2) not null default 35.00 check (retainer_percent between 0 and 100),
-  buffer_minutes        smallint not null default 60 check (buffer_minutes between 0 and 480),
+  buffer_minutes        smallint not null default 60 check (buffer_minutes between 0 and 480),  -- gap after each session
+  full_day_minutes      smallint not null default 360 check (full_day_minutes between 60 and 1440),  -- sessions this long use the whole day
   timezone              text not null default 'America/New_York',
   max_requests_per_email_per_day smallint not null default 5,
   updated_at            timestamptz not null default now()
@@ -154,6 +155,7 @@ create table public.bookings (
   total_cents      integer check (total_cents >= 0),           -- null until quoted
   retainer_cents   integer check (retainer_cents >= 0),
   hold_expires_at  timestamptz,
+  busy_until       timestamptz not null,               -- ends_at + gap between sessions (set by trigger)
   idempotency_key  uuid unique,
   created_at       timestamptz not null default now(),
   updated_at       timestamptz not null default now(),
@@ -165,11 +167,12 @@ create index bookings_day_idx on public.bookings (session_date) where status in 
 create index bookings_client_idx on public.bookings (client_id);
 create index bookings_hold_idx on public.bookings (hold_expires_at) where status in ('approved','awaiting_payment');
 
--- No two capacity-using bookings may overlap in time (double-booking guard).
+-- No two capacity-using bookings may overlap in time, including the gap after each
+-- session (double-booking and travel-time guard).
 -- Holds are expired under the same lock before any check (see trigger), so an
 -- expired hold never blocks a new booking for longer than the request that finds it.
 alter table public.bookings add constraint bookings_no_overlap
-  exclude using gist (tstzrange(starts_at, ends_at, '[)') with &&)
+  exclude using gist (tstzrange(starts_at, busy_until, '[)') with &&)
   where (status in ('approved', 'awaiting_payment', 'confirmed', 'rescheduled', 'completed'));
 
 create table public.booking_events (
@@ -227,12 +230,20 @@ language plpgsql security definer set search_path = public as $$
 declare
   used   integer;
   cap    smallint;
+  cfg    public.settings;
 begin
   if tg_op = 'UPDATE' and not public.valid_transition(old.status, new.status) then
     raise exception 'INVALID_TRANSITION: % -> %', old.status, new.status using errcode = 'P0001';
   end if;
 
   new.updated_at := now();
+
+  -- Gap after the session, and long sessions use the whole day.
+  select * into cfg from public.settings;
+  new.busy_until := new.ends_at + make_interval(mins => cfg.buffer_minutes);
+  if extract(epoch from (new.ends_at - new.starts_at)) / 60 >= cfg.full_day_minutes then
+    new.capacity_units := 2;
+  end if;
 
   -- Holds that have passed their time stop counting.
   if new.status in ('approved', 'awaiting_payment') and new.hold_expires_at <= now() then
@@ -530,7 +541,8 @@ begin
   select coalesce(sum(capacity_units), 0) into used from public.bookings
    where session_date = day and public.uses_capacity(status, hold_expires_at)
      and (status not in ('approved','awaiting_payment') or hold_expires_at > now());
-  if used + pkg.capacity_units > public.day_capacity(day) then
+  if used + (case when extract(epoch from (ends - starts)) / 60 >= s.full_day_minutes then 2 else pkg.capacity_units end)
+     > public.day_capacity(day) then
     raise exception 'DATE_FULL' using errcode = 'P0001';
   end if;
 

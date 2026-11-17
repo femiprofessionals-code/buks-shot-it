@@ -113,6 +113,22 @@ select public.approve_booking((select booking_id from r where n = 6));
 select public._expect_error($$select public.approve_booking((select booking_id from r where n = 7))$$, 'bookings_no_overlap', 'Overlapping times on the same day are refused (double booking)');
 reset role;
 
+-- Gap between sessions and the 6-hour rule.
+set role anon;
+insert into r select 8, * from public.request_booking('{"package_id":"11111111-0000-0000-0000-000000000003","quantity":"2","email":"g1@example.com","full_name":"G One","starts_at":"2027-09-18 09:00-04","location":"Hall"}');
+insert into r select 9, * from public.request_booking('{"package_id":"11111111-0000-0000-0000-000000000003","quantity":"2","email":"g2@example.com","full_name":"G Two","starts_at":"2027-09-18 11:30-04","location":"Hall"}');
+insert into r select 10, * from public.request_booking('{"package_id":"11111111-0000-0000-0000-000000000003","quantity":"2","email":"g3@example.com","full_name":"G Three","starts_at":"2027-09-18 12:00-04","location":"Hall"}');
+insert into r select 11, * from public.request_booking('{"package_id":"11111111-0000-0000-0000-000000000003","quantity":"6","email":"g4@example.com","full_name":"G Four","starts_at":"2027-09-25 09:00-04","location":"Hall"}');
+reset role;
+select public._check((select capacity_units from public.bookings where id = (select booking_id from r where n = 11)) = 2, 'A 6-hour booking uses the whole day');
+select public._check((select capacity_units from public.bookings where id = (select booking_id from r where n = 8)) = 1, 'A 2-hour booking uses one session');
+set role authenticated;
+select set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-00000000000a', false);
+select public.approve_booking((select booking_id from r where n = 8));
+select public._expect_error($$select public.approve_booking((select booking_id from r where n = 9))$$, 'bookings_no_overlap', 'A session starting 30 minutes after another ends is refused (60-minute gap)');
+select public._check((select status from public.approve_booking((select booking_id from r where n = 10))) = 'awaiting_payment', 'A session starting 60 minutes after another ends is allowed');
+reset role;
+
 -- ---------------------------------------------------------------- 5. hold expiry
 -- Simulate the 72-hour hold on booking 1 running out (test-only shortcut past the trigger).
 set session_replication_role = replica;
