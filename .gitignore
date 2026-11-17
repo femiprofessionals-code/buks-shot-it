@@ -1,2 +1,16 @@
 brand/mockups/*-raw.png
 *.zip
+# dependencies and build output
+node_modules/
+.next/
+out/
+build/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+# local env files (secrets never committed)
+.env
+.env*.local
+# test output
+test-results/
+playwright-report/

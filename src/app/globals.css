@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+/* Buks Shot It design tokens (approved in Deliverable 2). */
+@theme {
+  --color-charcoal: #171717;
+  --color-ivory: #f5f1ea;
+  --color-white: #ffffff;
+  --color-bronze: #a88962;      /* graphics and accents on dark only */
+  --color-bronze-deep: #7d6240; /* links and labels on light (5.1:1 on ivory) */
+  --color-stone: #6b655c;       /* secondary text on light */
+  --color-ash: #a39d93;         /* secondary text on dark */
+  --color-sand: #e2dacb;        /* hairlines */
+  --color-linen: #ede7dc;       /* raised surfaces on ivory */
+  --color-graphite: #24221f;    /* raised surfaces on charcoal */
+  --color-ink-soft: #3a3733;    /* body text on white */
+  --color-success: #3f6b4e;
+  --color-warning: #8a5a12;
+  --color-error: #a23b2e;
+  --color-info: #3b5d7a;
+
+  --font-display: var(--font-ibarra), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-schibsted), "Helvetica Neue", Arial, sans-serif;
+
+  --radius-control: 2px;
+  --radius-card: 4px;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-ivory text-charcoal font-sans antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+  h1, h2, h3 {
+    @apply font-display font-medium;
+    text-wrap: balance;
+  }
+  a {
+    @apply text-bronze-deep;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-bronze-deep);
+    outline-offset: 3px;
+  }
+  ::selection {
+    @apply bg-charcoal text-ivory;
+  }
+}
+
+@layer components {
+  .wrap {
+    @apply mx-auto w-full max-w-[1320px] px-4 sm:px-8 lg:px-12;
+  }
+  .label {
+    @apply text-xs font-medium uppercase text-stone;
+    letter-spacing: 0.16em;
+  }
+  /* Lining figures. Tabular figures widen the comma in Schibsted Grotesk ("$1 ,900"). */
+  .tnum {
+    font-variant-numeric: lining-nums;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
