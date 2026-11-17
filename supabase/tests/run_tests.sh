@@ -8,7 +8,7 @@ psql -U postgres -q -c "drop database if exists $DB" -c "create database $DB"
 for f in tests/00_supabase_stubs.sql migrations/*.sql tests/01_grants.sql; do
   psql -U postgres -d $DB -v ON_ERROR_STOP=1 -q -f "$f"
 done
-out=$(psql -U postgres -d $DB -v ON_ERROR_STOP=1 -q -f tests/02_rules.sql -f tests/04_portfolio.sql -f tests/05_booking_engine.sql 2>&1)
+out=$(psql -U postgres -d $DB -v ON_ERROR_STOP=1 -q -f tests/02_rules.sql -f tests/04_portfolio.sql -f tests/05_booking_engine.sql -f tests/06_payments.sql 2>&1)
 echo "$out" | grep -E "PASS|FAIL" | sed 's/.*NOTICE:  //'
 failed=$(psql -U postgres -d $DB -Atc "select count(*) from public._results where not ok")
 passed=$(psql -U postgres -d $DB -Atc "select count(*) from public._results where ok")

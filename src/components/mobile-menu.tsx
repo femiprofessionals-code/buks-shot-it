@@ -3,11 +3,28 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { mobileNav, site } from "@/content/site";
 
+/** Phone menu. Suspense lets pages with request-time addresses prerender; the static button shows until then. */
 export function MobileMenu() {
+  return (
+    <Suspense
+      fallback={
+        <Link href="/portfolio" aria-label="Menu" className="-mr-2 flex h-11 w-11 items-center justify-center text-ivory lg:hidden">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+            <path d="M3 9h18M3 15h18" />
+          </svg>
+        </Link>
+      }
+    >
+      <MobileMenuInner />
+    </Suspense>
+  );
+}
+
+function MobileMenuInner() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const closeRef = useRef<HTMLButtonElement>(null);

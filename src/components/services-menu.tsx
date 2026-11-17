@@ -2,11 +2,25 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useId, useRef, useState } from "react";
+import { Suspense, useEffect, useId, useRef, useState } from "react";
 import { serviceNav } from "@/content/site";
 
 /** "Services" disclosure menu in the header: opens on click, hover or keyboard; closes on Escape or outside click. */
 export function ServicesMenu() {
+  return (
+    <Suspense
+      fallback={
+        <Link href="/pricing" className="flex items-center gap-1.5 py-2 text-fg-soft no-underline hover:text-ivory">
+          Services
+        </Link>
+      }
+    >
+      <ServicesMenuInner />
+    </Suspense>
+  );
+}
+
+function ServicesMenuInner() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const [lastPath, setLastPath] = useState(pathname);

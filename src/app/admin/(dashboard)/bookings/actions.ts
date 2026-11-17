@@ -18,6 +18,8 @@ function friendly(error: { message?: string; code?: string } | null): string {
   if (m.includes("INVALID_DATE")) return "Choose a date and time in the future.";
   if (m.includes("HOLD_EXPIRED")) return "The payment hold on this booking has run out.";
   if (m.includes("FORBIDDEN")) return "You don't have permission to do that.";
+  if (m.includes("NOT_PAYABLE")) return "Nothing can be paid on this booking right now (not approved yet, closed, or already paid in full).";
+  if (m.includes("INVALID_AMOUNT")) return "Enter an amount above zero.";
   return "Something went wrong. Please try again.";
 }
 
@@ -88,4 +90,27 @@ export async function unblockDate(input: { day: string }): Promise<BookingAction
   const { error } = await supabase.from("blocked_dates").delete().eq("day", input.day);
   if (error) return { ok: false, error: friendly(error) };
   return { ok: true, message: "Unblocked." };
+}
+
+// ---------------------------------------------------------------- payments
+
+export async function recordManualPayment(input: { id: string; kind: string; dollars: string; note: string }): Promise<BookingActionResult> {
+  const supabase = await assertAdmin();
+  const kind = z.enum(["retainer", "balance", "full"]).safeParse(input.kind);
+  if (!kind.success) return { ok: false, error: "Choose what the payment was for." };
+  const n = Number(input.dollars.replace(/[$,\s]/g, ""));
+  if (!Number.isFinite(n) || n <= 0 || n > 100000) return { ok: false, error: "Enter the amount in dollars, for example 262.50." };
+  const note = z.string().trim().max(500).parse(input.note);
+  const { error } = await supabase.rpc("record_manual_payment", { b_id: uuid.parse(input.id), p_kind: kind.data, amount: Math.round(n * 100), note: note || null });
+  if (error) return { ok: false, error: friendly(error) };
+  return { ok: true, message: kind.data === "balance" ? "Payment recorded. The client is sent a receipt." : "Payment recorded and the booking confirmed. The client is sent a receipt." };
+}
+
+/** A fresh payment link. The old link stops working. Returned once so it can be copied. */
+export async function newPaymentLink(input: { id: string }): Promise<BookingActionResult & { url?: string }> {
+  const supabase = await assertAdmin();
+  const { data, error } = await supabase.rpc("issue_payment_link", { b_id: uuid.parse(input.id) });
+  if (error || typeof data !== "string") return { ok: false, error: friendly(error) };
+  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+  return { ok: true, url: `${base}/pay/${data}`, message: "New link created and emailed to the client. The previous link no longer works." };
 }

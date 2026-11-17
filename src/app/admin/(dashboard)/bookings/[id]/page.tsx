@@ -5,6 +5,7 @@ import { z } from "zod";
 import { adminPageClient } from "@/lib/auth";
 import { fmtDateLong, fmtDateTime, fmtTime, money, statusLabel, toLocalInput } from "@/lib/format";
 import { BookingActions } from "./booking-actions";
+import { PaymentsPanel } from "./payments-panel";
 
 export const metadata: Metadata = { title: "Booking" };
 
@@ -20,11 +21,12 @@ export default async function AdminBooking(props: PageProps<"/admin/bookings/[id
   if (!z.string().uuid().safeParse(id).success) notFound();
   const supabase = await adminPageClient();
   if (!supabase) return null;
-  const [{ data }, { data: events }, { data: others }] = await Promise.all([
+  const [{ data }, { data: events }, { data: others }, { data: payments }] = await Promise.all([
     supabase.from("admin_bookings").select("*").eq("id", id).maybeSingle(),
     supabase.from("booking_events").select("id, from_status, to_status, at, note").eq("booking_id", id).order("at"),
     supabase.from("admin_bookings").select("id, reference, starts_at, ends_at, status, full_name").neq("id", id)
       .in("status", ["pending", "awaiting_payment", "approved", "confirmed", "rescheduled"]).limit(50),
+    supabase.from("admin_payments").select("id, kind, amount_cents, status, method, note, paid_at, created_at").eq("booking_id", id).order("created_at"),
   ]);
   if (!data) notFound();
   const b = data as Booking;
@@ -96,6 +98,35 @@ export default async function AdminBooking(props: PageProps<"/admin/bookings/[id
           currentLocal={toLocalInput(b.starts_at)}
         />
       </div>
+
+      <section className="grid gap-8 lg:grid-cols-[3fr_2fr]">
+        <div className="flex flex-col gap-3">
+          <h2 className="text-2xl">Payments</h2>
+          {payments && payments.length > 0 ? (
+            <table className="w-full border-collapse text-left text-[15px]">
+              <thead className="text-[13px] text-stone"><tr className="border-b border-sand"><th className="py-2 pr-3 font-normal">Date</th><th className="py-2 pr-3 font-normal">For</th><th className="py-2 pr-3 font-normal">How</th><th className="py-2 text-right font-normal">Amount</th></tr></thead>
+              <tbody>
+                {payments.map((p) => (
+                  <tr key={p.id} className="border-b border-sand">
+                    <td className="py-2.5 pr-3">{fmtDateTime(p.paid_at ?? p.created_at)}</td>
+                    <td className="py-2.5 pr-3">{p.kind === "full" ? "Payment in full" : p.kind === "retainer" ? "Retainer" : "Balance"}{p.status !== "succeeded" ? ` (${p.status})` : ""}</td>
+                    <td className="py-2.5 pr-3">{p.method === "stripe" ? "Card (Stripe)" : "Recorded manually"}{p.note ? <span className="text-stone"> · {p.note}</span> : null}</td>
+                    <td className="tnum py-2.5 text-right">{money(p.amount_cents)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p className="text-stone">No payments yet.</p>
+          )}
+        </div>
+        <PaymentsPanel
+          id={b.id}
+          canRecord={["approved", "awaiting_payment", "expired", "confirmed", "rescheduled", "completed"].includes(b.status) && (b.total_cents ?? 0) > b.paid_cents}
+          canLink={(["approved", "awaiting_payment"].includes(b.status) && !!b.hold_expires_at && new Date(b.hold_expires_at) > new Date()) || (["confirmed", "rescheduled", "completed"].includes(b.status) && b.balance_cents > 0)}
+          suggestedKind={b.paid_cents > 0 ? "balance" : "retainer"}
+        />
+      </section>
 
       <section className="flex flex-col gap-3">
         <h2 className="text-2xl">History</h2>

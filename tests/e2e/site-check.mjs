@@ -146,6 +146,19 @@ check("Booking page preselects service and package from the link", (await page.l
   }
 }
 
+
+// Payment page: an unknown link shows nothing private, isn't indexed, and doesn't leak the link as a referrer.
+{
+  await page.goto(BASE + "/pay/" + "0".repeat(64), { waitUntil: "networkidle" });
+  const text = await page.locator("main").innerText();
+  const robots = await page.locator('meta[name="robots"]').getAttribute("content");
+  const referrer = await page.locator('meta[name="referrer"]').getAttribute("content");
+  check("Payment page: an unknown link shows a clear message and no booking details", /isn.t active/.test(text) && !/\$/.test(text));
+  check("Payment page: hidden from search engines and never sent as a referrer", /noindex/.test(robots ?? "") && referrer === "no-referrer", `${robots} / ${referrer}`);
+  const axe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
+  results.axe["/pay/[unknown]"] = axe.violations.map((v) => ({ id: v.id, impact: v.impact, n: v.nodes.length, help: v.help, target: v.nodes[0]?.target }));
+}
+
 await browser.close();
 const axeTotal = Object.values(results.axe).flat();
 check("No WCAG 2.1 AA accessibility violations (axe)", axeTotal.length === 0, JSON.stringify(results.axe).slice(0, 1500));

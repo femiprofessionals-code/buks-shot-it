@@ -2,12 +2,20 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 const SHOW_ON = ["/wedding-photography", "/portrait-photography", "/event-photography", "/product-photography", "/pricing", "/portfolio"];
 
 /** Fixed "Check your date" bar on phones, after the first screen, on service, pricing and portfolio pages. */
 export function MobileBookingBar() {
+  return (
+    <Suspense fallback={null}>
+      <MobileBookingBarInner />
+    </Suspense>
+  );
+}
+
+function MobileBookingBarInner() {
   const pathname = usePathname();
   const [visible, setVisible] = useState(false);
   const enabled = SHOW_ON.some((p) => pathname === p || pathname.startsWith(`${p}/`));
