@@ -8,9 +8,11 @@ import { signOut } from "../(auth)/actions";
 
 export const metadata: Metadata = { title: { default: "Admin", template: "%s · Admin" }, robots: { index: false, follow: false } };
 
-// Sections appear here as each deliverable ships them (D9 bookings, D10 payments, D13 galleries, D14 the rest).
+// Sections appear here as each deliverable ships them (D10 payments, D13 galleries, D14 the rest).
 const nav = [
   { href: "/admin", label: "Overview" },
+  { href: "/admin/bookings", label: "Bookings" },
+  { href: "/admin/availability", label: "Blocked dates" },
   { href: "/admin/portfolio", label: "Portfolio" },
 ];
 

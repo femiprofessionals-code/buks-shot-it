@@ -20,6 +20,11 @@ export type Package = {
   facts: { label: string; value: string }[];
   /** Book directly, or start with a quote request. */
   action: "book" | "quote" | "ask";
+  /**
+   * Session length in minutes for online booking (hourly packages: per hour chosen).
+   * Must match `coverage_minutes` in the database seed (supabase/migrations/20261119000000_booking_engine.sql).
+   */
+  sessionMinutes?: number;
 };
 
 export type Service = {
@@ -101,7 +106,7 @@ export const services: Record<ServiceSlug, Service> = {
       "Every package includes edited images delivered in a private online gallery. A 35% retainer reserves your date.",
     packages: [
       {
-        id: "wedding-essential",
+        id: "wedding-essential", sessionMinutes: 240,
         name: "Essential",
         priceCents: 190000,
         priceType: "fixed",
@@ -114,7 +119,7 @@ export const services: Record<ServiceSlug, Service> = {
         action: "book",
       },
       {
-        id: "wedding-classic",
+        id: "wedding-classic", sessionMinutes: 360,
         name: "Classic",
         priceCents: 300000,
         priceType: "fixed",
@@ -127,7 +132,7 @@ export const services: Record<ServiceSlug, Service> = {
         action: "book",
       },
       {
-        id: "wedding-signature",
+        id: "wedding-signature", sessionMinutes: 480,
         name: "Signature",
         priceCents: 420000,
         priceType: "fixed",
@@ -236,7 +241,7 @@ export const services: Record<ServiceSlug, Service> = {
         action: "book",
       },
       {
-        id: "event-half-day",
+        id: "event-half-day", sessionMinutes: 480,
         name: "Half Day (8 Hours)",
         priceCents: 75000,
         priceType: "fixed",
@@ -249,7 +254,7 @@ export const services: Record<ServiceSlug, Service> = {
         action: "book",
       },
       {
-        id: "event-full-day",
+        id: "event-full-day", sessionMinutes: 720,
         name: "Full Day (12 Hours)",
         priceCents: 180000,
         priceType: "fixed",
@@ -300,9 +305,9 @@ export const services: Record<ServiceSlug, Service> = {
     packagesHeading: "Product packages",
     packagesIntro: "Sessions take place on a set date, booked like any other session.",
     packages: [
-      { id: "product-simple", name: "Simple Product Images", priceCents: 4000, priceType: "per_image", bestFor: "A few products, or adding to an existing catalogue.", facts: [{ label: "Included", value: "Edited images on a white background" }], action: "book" },
-      { id: "product-standard", name: "Standard Product Package", priceCents: 35000, priceType: "fixed", bestFor: "A small range or a new launch.", facts: [{ label: "Included", value: "Up to 10 edited images" }], action: "book" },
-      { id: "product-brand", name: "Brand Content Package", priceCents: 80000, priceType: "quote", bestFor: "Campaigns, launches and brand imagery.", facts: [{ label: "Included", value: "Styled product imagery and creative direction" }], action: "quote" },
+      { id: "product-simple", sessionMinutes: 120, name: "Simple Product Images", priceCents: 4000, priceType: "per_image", bestFor: "A few products, or adding to an existing catalogue.", facts: [{ label: "Included", value: "Edited images on a white background" }], action: "book" },
+      { id: "product-standard", sessionMinutes: 120, name: "Standard Product Package", priceCents: 35000, priceType: "fixed", bestFor: "A small range or a new launch.", facts: [{ label: "Included", value: "Up to 10 edited images" }], action: "book" },
+      { id: "product-brand", sessionMinutes: 120, name: "Brand Content Package", priceCents: 80000, priceType: "quote", bestFor: "Campaigns, launches and brand imagery.", facts: [{ label: "Included", value: "Styled product imagery and creative direction" }], action: "quote" },
     ],
     addons: [
       { name: "Rush delivery (48 hours)", price: "+$150" },

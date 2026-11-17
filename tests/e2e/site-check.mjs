@@ -109,6 +109,43 @@ check("Viewer closes with Escape and returns focus", !(await viewer.isVisible().
 await page.goto(BASE + "/book?service=events&package=event-half-day", { waitUntil: "networkidle" });
 check("Booking page preselects service and package from the link", (await page.locator("aside").textContent()).includes("Half Day (8 Hours)") && (await page.locator("aside").textContent()).includes("$262.50"));
 
+
+// Booking flow: package -> hours -> date -> time -> details. Works against a live or a preview (not connected) site.
+{
+  await page.goto(BASE + "/book?service=events&package=event-hourly", { waitUntil: "networkidle" });
+  await page.selectOption("#b-hours", "2");
+  const dayButtons = page.locator('ul[aria-label^="Dates in"] button:not([disabled])');
+  await dayButtons.first().waitFor({ timeout: 10000 }).catch(() => {});
+  if ((await dayButtons.count()) === 0) await page.getByRole("button", { name: "Next month" }).click();
+  await dayButtons.first().waitFor({ timeout: 10000 });
+  check("Booking: open dates are shown after choosing a package", (await dayButtons.count()) > 0);
+  await dayButtons.nth(Math.min(5, (await dayButtons.count()) - 1)).click();
+  const timeButtons = page.locator('section[aria-labelledby="step-time"] button');
+  await timeButtons.first().waitFor({ timeout: 10000 });
+  check("Booking: start times are shown after choosing a date", (await timeButtons.count()) > 0);
+  await timeButtons.first().click();
+  check("Booking: summary shows the total and retainer for 2 hours", (await page.locator("aside").textContent()).includes("$200") && (await page.locator("aside").textContent()).includes("$70"));
+  const send = page.getByRole("button", { name: "Send booking request" });
+  await send.click();
+  await page.locator("#full_name-error").waitFor({ timeout: 10000 });
+  check("Booking: empty details are refused with field messages", await page.locator("#terms-error").isVisible());
+  await page.fill("#b-name", "Site Check");
+  await page.fill("#b-location", "Check Hall");
+  await send.click();
+  await page.locator("#email-error").waitFor({ timeout: 10000 });
+  check("Booking: typed details are kept after an error", (await page.inputValue("#b-name")) === "Site Check" && (await page.inputValue("#b-location")) === "Check Hall");
+  const axe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
+  results.axe["/book (all steps open)"] = axe.violations.map((v) => ({ id: v.id, impact: v.impact, n: v.nodes.length, help: v.help, target: v.nodes[0]?.target }));
+  if (process.env.SITE_LIVE_BOOKING !== "1") {
+    await page.fill("#b-email", "site.check@example.com");
+    await page.check('input[name="terms"]');
+    await send.click();
+    await page.getByRole("alert").filter({ hasText: /isn.t connected|didn.t send|bot/ }).first().waitFor({ timeout: 10000 }).catch(() => {});
+    const alertText = (await page.getByRole("alert").allTextContents()).join(" ");
+    check("Booking: without a database, a request is never reported as sent", !page.url().includes("/book/requested") && /isn.t connected/.test(alertText), alertText.slice(0, 200));
+  }
+}
+
 await browser.close();
 const axeTotal = Object.values(results.axe).flat();
 check("No WCAG 2.1 AA accessibility violations (axe)", axeTotal.length === 0, JSON.stringify(results.axe).slice(0, 1500));

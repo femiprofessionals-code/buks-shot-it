@@ -4,6 +4,7 @@ import { useActionState } from "react";
 import { useSearchParams } from "next/navigation";
 import { sendEnquiry, type ContactState } from "@/app/(site)/contact/actions";
 import { site } from "@/content/site";
+import { Turnstile } from "./turnstile";
 
 const topics = [
   ["weddings", "Weddings"],
@@ -17,7 +18,7 @@ const topics = [
 const input =
   "h-12 w-full rounded-[2px] border bg-raised px-3.5 text-base text-ivory focus:border-ivory focus:outline-none focus:ring-1 focus:ring-ivory";
 
-export function ContactForm() {
+export function ContactForm({ turnstileSiteKey = "" }: { turnstileSiteKey?: string }) {
   const params = useSearchParams();
   const presetTopic = params.get("topic") ?? "";
   const presetSession = params.get("session");
@@ -78,6 +79,7 @@ export function ContactForm() {
         <input id="c-website" name="website" tabIndex={-1} autoComplete="off" />
       </div>
       <div className="flex flex-wrap items-center gap-4 sm:col-span-2">
+        <div className="sm:col-span-2"><Turnstile siteKey={turnstileSiteKey} /></div>
         <button type="submit" disabled={pending} className="inline-flex h-12 items-center rounded-[2px] bg-ivory px-7 text-[12px] font-medium uppercase tracking-[0.18em] text-canvas hover:bg-white disabled:opacity-60">
           {pending ? "Sending…" : "Send message"}
         </button>

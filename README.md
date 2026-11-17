@@ -53,7 +53,16 @@ Environment variables (set in Vercel → Settings → Environment Variables; sec
 | `R2_PRIVATE_BUCKET` | Bucket for originals and client files. Never public |
 | `R2_PUBLIC_BASE_URL` | The public bucket's address, e.g. `https://images.example.com` |
 | `CRON_SECRET` | Secret. Protects the nightly clean-up of deleted files |
+| `TURNSTILE_SECRET_KEY`, `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | Cloudflare Turnstile spam check on the contact and booking forms (both needed; the widget appears only when both are set) |
 
 Photographs go straight from the browser to the private bucket, so that bucket needs a CORS rule allowing `PUT` from the site's domain with the `Content-Type` header. The server then makes the web sizes (EXIF and GPS removed) and stores them in the public bucket.
 
 Making the first admin: create the user in Supabase → Authentication, then run `insert into public.profiles (id, role) values ('<user id>', 'admin') on conflict (id) do update set role = 'admin';` in the SQL editor. They set up the authenticator app on first sign-in.
+
+## Booking (Deliverable 9)
+
+Visitors choose a package, a date and a start time on `/book`; the request is checked again by the database (`request_booking`), which refuses times that overlap a session (including the 60-minute gap), full or blocked dates, and anything with less than 24 hours' notice. Requests don't hold the date: approving one (admin → Bookings) holds it for 72 hours while the client pays the retainer (payments arrive in Deliverable 10).
+
+Booking hours, start-time steps and notice are in the `settings` table. Defaults, to be confirmed by the client: 7:00 to midnight Eastern Time, start times every 30 minutes, 24 hours' notice; product sessions are 2 hours. Portrait sessions stay enquiries until their prices are supplied.
+
+Until Supabase is connected, `/book` runs in preview mode: it shows the flow with the default hours and never reports a request as sent.

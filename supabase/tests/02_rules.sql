@@ -38,7 +38,8 @@ insert into public.profiles (id, role) values
 
 insert into public.services (kind, name, slug) values
   ('wedding','Wedding Photography','wedding-photography'), ('event','Event Photography','event-photography'),
-  ('product','Product Photography','product-photography'), ('portrait','Portrait Photography','portrait-photography');
+  ('product','Product Photography','product-photography'), ('portrait','Portrait Photography','portrait-photography')
+on conflict (kind) do nothing;  -- the booking-engine migration seeds these
 
 insert into public.packages (id, service_id, name, slug, price_type, price_cents, coverage_minutes, capacity_units) values
   ('11111111-0000-0000-0000-000000000001', 1, 'Classic',   'classic',   'fixed',  300000, 360, 1),
@@ -49,7 +50,7 @@ insert into public.packages (id, service_id, name, slug, price_type, price_cents
 
 -- ---------------------------------------------------------------- 1. visitors
 set role anon;
-select public._check((select count(*) from public.packages) = 5, 'Visitor can read active packages');
+select public._check((select count(*) from public.packages) = 14, 'Visitor can read active packages (9 seeded + 5 test)');
 select public._check(r.reference is not null, 'Visitor can send a booking request')
   from public.request_booking('{"package_id":"11111111-0000-0000-0000-000000000001","email":"Jordan@Example.com","full_name":"Jordan Example","starts_at":"2027-06-12 10:00-04","location":"Example venue"}') r;
 select public._check((select count(*) from public.bookings) = 0, 'Visitor cannot read any bookings (RLS)');

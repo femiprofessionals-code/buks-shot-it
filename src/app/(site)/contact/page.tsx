@@ -1,3 +1,4 @@
+import { env } from "@/lib/env";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ContactForm } from "@/components/contact-form";
@@ -29,7 +30,7 @@ export default function ContactPage() {
       </div>
       <div className="border border-line bg-raised p-6 sm:p-12">
         <Suspense fallback={<p className="text-muted">Loading the form…</p>}>
-          <ContactForm />
+          <ContactForm turnstileSiteKey={env.turnstileSiteKey} />
         </Suspense>
       </div>
     </section>

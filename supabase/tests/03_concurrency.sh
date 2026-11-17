@@ -6,6 +6,8 @@ DB=bsi_test
 ADMIN="set role authenticated; select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-00000000000a',false);"
 psql -U postgres -d $DB -q -v ON_ERROR_STOP=1 <<'SQL'
 create table if not exists public._race (n int primary key, booking_id uuid);
+-- Ten 1-hour sessions two hours apart need the whole day: open booking hours from midnight for this test.
+update public.settings set earliest_start_minutes = 0;
 truncate public._race;
 do $$
 declare i int; b uuid;
