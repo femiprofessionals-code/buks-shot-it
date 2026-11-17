@@ -1,0 +1,52 @@
+/* Buks Shot It design tokens v1.0 (Deliverable 2, awaiting approval) */
+:root {
+  /* Core palette */
+  --bsi-charcoal: #171717;
+  --bsi-ivory: #F5F1EA;
+  --bsi-white: #FFFFFF;
+  --bsi-bronze: #A88962;       /* logo, graphics, accents on dark only */
+  --bsi-bronze-deep: #7D6240;  /* links, labels and accents on light (5.1:1 on ivory) */
+
+  /* Supporting neutrals */
+  --bsi-stone: #6B655C;        /* secondary text on light (5.1:1 on ivory) */
+  --bsi-ash: #A39D93;          /* secondary text on dark (6.7:1 on charcoal) */
+  --bsi-sand: #E2DACB;         /* hairlines, borders on light */
+  --bsi-linen: #EDE7DC;        /* raised surfaces on ivory */
+  --bsi-graphite: #24221F;     /* raised surfaces on charcoal */
+
+  /* Status (dashboard and forms only) */
+  --bsi-success: #3F6B4E; --bsi-success-on-dark: #8FC2A0;
+  --bsi-warning: #8A5A12; --bsi-warning-on-dark: #E0B36A;
+  --bsi-error:   #A23B2E; --bsi-error-on-dark:   #E8968A;
+  --bsi-info:    #3B5D7A; --bsi-info-on-dark:    #9DBBD6;
+
+  /* Type */
+  --bsi-font-display: "Ibarra Real Nova", Georgia, "Times New Roman", serif;
+  --bsi-font-text: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+
+  --bsi-text-display: clamp(2.75rem, 6vw, 4.5rem);  /* 44-72px, Ibarra 500, lh 1.05 */
+  --bsi-text-h1: clamp(2.25rem, 4.4vw, 3.5rem);     /* 36-56px, Ibarra 500, lh 1.08 */
+  --bsi-text-h2: clamp(1.75rem, 3vw, 2.5rem);       /* 28-40px, Ibarra 500, lh 1.15 */
+  --bsi-text-h3: 1.75rem;                           /* 28px, Ibarra 500, lh 1.2 */
+  --bsi-text-h4: 1.25rem;                           /* 20px, Schibsted 600, lh 1.4 */
+  --bsi-text-body-lg: 1.1875rem;                    /* 19px, lh 1.6 */
+  --bsi-text-body: 1.0625rem;                       /* 17px, lh 1.65 */
+  --bsi-text-small: 0.875rem;                       /* 14px, lh 1.5 */
+  --bsi-text-label: 0.75rem;                        /* 12px, Schibsted 500, uppercase, tracking 0.16em */
+
+  /* Space (8px base) */
+  --bsi-space-1: 4px;  --bsi-space-2: 8px;  --bsi-space-3: 12px; --bsi-space-4: 16px;
+  --bsi-space-5: 24px; --bsi-space-6: 32px; --bsi-space-7: 48px; --bsi-space-8: 64px;
+  --bsi-space-9: 96px; --bsi-space-10: 128px; --bsi-space-11: 160px;
+
+  /* Shape */
+  --bsi-radius-control: 2px;  /* buttons, inputs */
+  --bsi-radius-card: 4px;     /* dashboard panels */
+  --bsi-radius-photo: 0;      /* photographs are never rounded */
+  --bsi-hairline: 1px solid var(--bsi-sand);
+
+  /* Layout */
+  --bsi-max-width: 1320px;
+  --bsi-gutter: clamp(16px, 4vw, 48px);
+  --bsi-control-height: 48px;
+}
