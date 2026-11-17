@@ -2,7 +2,7 @@
 
 import { useActionState } from "react";
 import { useSearchParams } from "next/navigation";
-import { sendEnquiry, type ContactState } from "@/app/contact/actions";
+import { sendEnquiry, type ContactState } from "@/app/(site)/contact/actions";
 import { site } from "@/content/site";
 
 const topics = [

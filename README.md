@@ -26,6 +26,7 @@ npm run lint
 npm run build
 npm run test:site     # needs a running site: BASE=http://localhost:3000, and Playwright installed
 npm run test:db       # needs a local PostgreSQL superuser (see supabase/README.md)
+npx vitest run        # storage tests; needs an S3 test server: moto_server -p 5005
 ```
 
 ## Preview and production
@@ -35,3 +36,24 @@ npm run test:db       # needs a local PostgreSQL superuser (see supabase/README.
 - `NEXT_PUBLIC_SITE_URL`: the live domain, used for canonical links and the sitemap.
 
 Temporary stock images are listed in `src/assets/temp/CREDITS.md` and must be replaced before launch.
+
+## Admin and photo storage (Deliverable 8)
+
+The admin area lives at `/admin`. Sign-in needs a password **and** an authenticator-app code, and the account must be marked as admin in the database.
+
+Environment variables (set in Vercel → Settings → Environment Variables; secrets never go in code):
+
+| Variable | What it is |
+| --- | --- |
+| `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase project (public values) |
+| `SUPABASE_SERVICE_ROLE_KEY` | Secret. Used only by the storage clean-up job |
+| `R2_ACCOUNT_ID` | Cloudflare account ID |
+| `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY` | Secret. R2 API token with read and write access to both buckets |
+| `R2_PUBLIC_BUCKET` | Bucket for web-sized portfolio images, with a public custom domain |
+| `R2_PRIVATE_BUCKET` | Bucket for originals and client files. Never public |
+| `R2_PUBLIC_BASE_URL` | The public bucket's address, e.g. `https://images.example.com` |
+| `CRON_SECRET` | Secret. Protects the nightly clean-up of deleted files |
+
+Photographs go straight from the browser to the private bucket, so that bucket needs a CORS rule allowing `PUT` from the site's domain with the `Content-Type` header. The server then makes the web sizes (EXIF and GPS removed) and stores them in the public bucket.
+
+Making the first admin: create the user in Supabase → Authentication, then run `insert into public.profiles (id, role) values ('<user id>', 'admin') on conflict (id) do update set role = 'admin';` in the SQL editor. They set up the authenticator app on first sign-in.

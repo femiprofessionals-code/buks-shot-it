@@ -14,7 +14,7 @@ begin
     select booking_id into b from public.request_booking(jsonb_build_object(
       'package_id','11111111-0000-0000-0000-000000000003','quantity','1',
       'email','race'||i||'@example.com','full_name','Race '||i,
-      'starts_at', ('2027-10-02 08:00-04'::timestamptz + make_interval(hours => i))::text,
+      'starts_at', ('2027-10-02 00:00-04'::timestamptz + make_interval(hours => 2*(i-1)))::text,
       'location','Hall'));
     insert into public._race values (i, b);
   end loop;

@@ -3,7 +3,9 @@
 import Image, { type StaticImageData } from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-export type GridPhoto = { id: string; src: StaticImageData; alt: string; label: string };
+export type GridPhoto =
+  | { kind?: "static"; id: string; src: StaticImageData; alt: string; label: string }
+  | { kind: "remote"; id: string; src: string; srcSet: string; largest: string; width: number; height: number; blur: string | null; alt: string; label: string };
 
 /** Photo grid with an accessible full-screen viewer (keyboard, swipe, focus return). */
 export function PhotoGrid({ photos }: { photos: GridPhoto[] }) {
@@ -53,7 +55,23 @@ export function PhotoGrid({ photos }: { photos: GridPhoto[] }) {
               className="relative block aspect-[4/5] w-full cursor-zoom-in overflow-hidden"
               aria-label={`View larger: ${p.alt}`}
             >
-              <Image src={p.src} alt={p.alt} fill placeholder="blur" sizes="(max-width: 768px) 50vw, 33vw" className="object-cover transition-transform duration-700 hover:scale-[1.02]" />
+              {p.kind === "remote" ? (
+                // eslint-disable-next-line @next/next/no-img-element -- sizes are pre-generated at upload, so the image optimizer isn't needed
+                <img
+                  src={p.src}
+                  srcSet={p.srcSet}
+                  sizes="(max-width: 768px) 50vw, 33vw"
+                  width={p.width}
+                  height={p.height}
+                  alt={p.alt}
+                  loading="lazy"
+                  decoding="async"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-[1.02]"
+                  style={p.blur ? { backgroundImage: `url(${p.blur})`, backgroundSize: "cover" } : undefined}
+                />
+              ) : (
+                <Image src={p.src} alt={p.alt} fill placeholder="blur" sizes="(max-width: 768px) 50vw, 33vw" className="object-cover transition-transform duration-700 hover:scale-[1.02]" />
+              )}
             </button>
             <p className="text-sm text-stone">{p.label}</p>
           </li>
@@ -76,7 +94,12 @@ export function PhotoGrid({ photos }: { photos: GridPhoto[] }) {
         >
           <div className="relative min-h-0 flex-1 p-4 md:p-8">
             <div className="relative h-full w-full">
-              <Image src={current.src} alt={current.alt} fill sizes="100vw" className="object-contain" />
+              {current.kind === "remote" ? (
+                // eslint-disable-next-line @next/next/no-img-element -- pre-generated sizes
+                <img src={current.largest} alt={current.alt} className="absolute inset-0 h-full w-full object-contain" />
+              ) : (
+                <Image src={current.src} alt={current.alt} fill sizes="100vw" className="object-contain" />
+              )}
             </div>
           </div>
           <div className="flex flex-wrap items-center justify-between gap-4 px-4 pb-6 pt-3 text-sm md:px-8" style={{ paddingBottom: "max(24px, env(safe-area-inset-bottom))" }}>

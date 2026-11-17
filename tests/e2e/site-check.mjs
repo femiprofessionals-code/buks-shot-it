@@ -16,7 +16,7 @@ const check = (name, ok, detail = "") => { results.checks.push({ name, ok, detai
 
 // Route through an outbound proxy when the environment requires one.
 const proxyServer = process.env.HTTPS_PROXY || process.env.https_proxy;
-const browser = await chromium.launch(proxyServer ? { proxy: { server: proxyServer } } : {});
+const browser = await chromium.launch(proxyServer ? { proxy: { server: proxyServer, bypass: "localhost,127.0.0.1" } } : {});
 for (const [label, vp] of [["desktop", { width: 1440, height: 900 }], ["phone", { width: 390, height: 844 }]]) {
   const ctx = await browser.newContext({ viewport: vp });
   const page = await ctx.newPage();

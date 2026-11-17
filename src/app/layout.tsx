@@ -1,8 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
-import { MobileBookingBar } from "@/components/mobile-booking-bar";
 import { isProduction, site } from "@/content/site";
 import "./globals.css";
 
@@ -53,15 +50,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <a href="#main" className="absolute -left-[9999px] top-2 z-[60] bg-charcoal px-4 py-2 text-ivory focus:left-2">
           Skip to content
         </a>
-        {isProduction ? null : (
-          <div className="bg-charcoal px-4 py-2 text-center text-xs text-ash">
-            Preview site · photographs are temporary stock images · not yet open for bookings
-          </div>
-        )}
-        <SiteHeader />
-        <main id="main" className="flex-1">{children}</main>
-        <SiteFooter />
-        <MobileBookingBar />
+        {children}
       </body>
     </html>
   );
