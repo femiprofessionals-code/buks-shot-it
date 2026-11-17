@@ -2,71 +2,80 @@ import Image from "next/image";
 import { servicePhotos } from "@/content/images";
 import type { Service } from "@/content/services";
 import { BookingSteps, ClosingBand, Faq, PackageCards, PhotoStory, bookHref } from "./sections";
-import { ButtonLink, SectionHeading, TextLink } from "./ui";
+import { ArrowLink, ButtonLink, SectionHeading } from "./ui";
 
-/** Shared template for the four service pages (approved in Deliverable 5). */
+/** Shared template for the four service pages. */
 export function ServicePage({ service }: { service: Service }) {
   const imgs = servicePhotos[service.slug];
   return (
     <>
-      <div className="relative h-[46vh] min-h-[320px] bg-charcoal md:h-[620px]">
-        <Image src={imgs.hero.src} alt={imgs.hero.alt} fill priority placeholder="blur" sizes="100vw" className="object-cover opacity-95" />
-      </div>
-
-      <section className="wrap grid items-end gap-10 py-16 md:grid-cols-2 md:py-20">
-        <div className="flex flex-col gap-4">
-          <p className="label">{service.name}</p>
-          <h1 className="text-[clamp(2.75rem,5.5vw,4.75rem)] leading-[1.04]">{service.title}</h1>
-        </div>
-        <div className="flex flex-col items-start gap-6">
-          <p className="text-[19px] leading-relaxed">{service.intro}</p>
-          <ButtonLink href={bookHref(service)}>{service.ctaLabel}</ButtonLink>
+      <section className="relative isolate flex h-[78svh] max-h-[960px] min-h-[480px] items-end overflow-hidden">
+        <Image src={imgs.hero.src} alt={imgs.hero.alt} fill priority placeholder="blur" quality={85} sizes="100vw" className="hero-zoom -z-20 object-cover" />
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,var(--color-canvas)_0%,rgb(14_13_12/0.55)_30%,rgb(14_13_12/0)_62%)]" />
+        <div className="wrap flex flex-col gap-6 pb-14 md:pb-20">
+          <p className="label-rule hero-in text-fg-soft">{service.name}</p>
+          <h1 className="hero-in max-w-[16ch] text-[clamp(3rem,7vw,6.25rem)] leading-[0.98] tracking-[-0.015em] [animation-delay:120ms]">{service.title}</h1>
         </div>
       </section>
 
-      <section className="border-y border-sand bg-white">
-        <div className="wrap flex flex-col gap-9 py-20 md:py-24">
+      <section className="wrap grid gap-10 py-20 md:grid-cols-[4fr_8fr] md:gap-16 md:py-28">
+        <p className="label-rule">Overview</p>
+        <div className="flex flex-col items-start gap-9">
+          <p className="font-display text-[clamp(1.5rem,2.6vw,2.25rem)] leading-[1.35] text-ivory">{service.intro}</p>
+          <div className="flex flex-wrap items-center gap-x-10 gap-y-5">
+            <ButtonLink href={bookHref(service)}>{service.ctaLabel}</ButtonLink>
+            <ArrowLink href="#packages">See packages</ArrowLink>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-line">
+        <div className="wrap flex flex-col gap-12 py-24 md:py-32">
           <div className="grid items-end gap-6 md:grid-cols-[5fr_7fr] md:gap-12">
-            <h2 className="text-[clamp(2rem,3.4vw,2.75rem)] leading-tight">
-              {service.slug === "weddings" ? "One wedding, start to finish" : `Recent ${service.name.toLowerCase()}`}
+            <h2 className="reveal text-[clamp(2.25rem,4.2vw,3.5rem)] leading-[1.06]">
+              {service.slug === "weddings" ? <>One wedding, <em>start to finish</em></> : <>Recent <em>{service.name.toLowerCase()}</em></>}
             </h2>
-            <p className="text-[17px] leading-relaxed text-ink-soft">
+            <p className="reveal text-[17px] leading-relaxed text-fg-soft">
               {service.slug === "weddings"
                 ? "A single highlight can't show how a photographer covers a whole day. This is one complete wedding, in the order it happened."
                 : "A selection from recent sessions."}
             </p>
           </div>
           <PhotoStory photos={imgs.story} />
-          <p className="text-sm text-stone">
-            <TextLink href={`/portfolio/${service.slug}`}>See the full gallery</TextLink>
-          </p>
+          <ArrowLink href={`/portfolio/${service.slug}`}>See the full gallery</ArrowLink>
         </div>
       </section>
 
-      <section id="packages" className="wrap flex scroll-mt-8 flex-col gap-10 py-24 md:py-28">
-        <SectionHeading label="Packages" title={service.packagesHeading} intro={service.packagesIntro} />
-        <PackageCards service={service} />
+      <section id="packages" className="scroll-mt-24 border-t border-line">
+        <div className="wrap flex flex-col gap-14 py-24 md:py-32">
+          <SectionHeading label="Packages" title={service.packagesHeading} intro={service.packagesIntro} />
+          <PackageCards service={service} />
+        </div>
       </section>
 
-      <section className="border-y border-sand bg-white">
-        <div className="wrap grid gap-16 py-20 md:grid-cols-2 md:py-24">
-          <div className="flex flex-col gap-5">
-            <h2 className="text-4xl">Add to any {service.slug === "weddings" ? "wedding package" : service.slug === "events" ? "event" : "session"}</h2>
-            <dl className="border-t border-charcoal text-base">
+      <section className="border-t border-line bg-raised">
+        <div className="wrap grid gap-16 py-24 md:grid-cols-2 md:py-28">
+          <div className="flex flex-col gap-7">
+            <h2 className="text-[clamp(2rem,3.4vw,2.75rem)]">
+              Add to any <em>{service.slug === "weddings" ? "wedding package" : service.slug === "events" ? "event" : "session"}</em>
+            </h2>
+            <dl className="border-t border-line-strong text-base">
               {service.addons.map((a) => (
-                <div key={a.name} className="flex justify-between gap-4 border-b border-sand py-3">
-                  <dt>{a.name}</dt>
-                  <dd className="tnum font-semibold">{a.price}</dd>
+                <div key={a.name} className="flex justify-between gap-4 border-b border-line py-4">
+                  <dt className="text-fg-soft">{a.name}</dt>
+                  <dd className="tnum text-right text-ivory">{a.price}</dd>
                 </div>
               ))}
             </dl>
           </div>
-          <div className="flex flex-col gap-5">
-            <h2 className="text-4xl">Good to know</h2>
-            <ul className="flex list-disc flex-col gap-2.5 pl-5 text-base leading-relaxed">
+          <div className="flex flex-col gap-7">
+            <h2 className="text-[clamp(2rem,3.4vw,2.75rem)]">
+              Good to <em>know</em>
+            </h2>
+            <ul className="flex flex-col border-t border-line-strong text-base leading-relaxed">
               {service.goodToKnow.map((g) => (
-                <li key={g.lead}>
-                  <strong>{g.lead}</strong> {g.text}
+                <li key={g.lead} className="border-b border-line py-4 text-fg-soft">
+                  <strong className="font-medium text-ivory">{g.lead}</strong> {g.text}
                 </li>
               ))}
             </ul>
@@ -74,19 +83,23 @@ export function ServicePage({ service }: { service: Service }) {
         </div>
       </section>
 
-      <section className="wrap flex flex-col gap-12 py-24">
-        <SectionHeading label="Four steps" title="How booking works" />
-        <BookingSteps />
+      <section className="border-t border-line">
+        <div className="wrap flex flex-col gap-14 py-24 md:py-32">
+          <SectionHeading label="Four steps" title={<>How booking <em>works</em></>} />
+          <BookingSteps />
+        </div>
       </section>
 
-      <section className="border-t border-sand">
-        <div className="wrap grid gap-12 py-24 md:grid-cols-[4fr_8fr] md:gap-16">
-          <h2 className="text-[clamp(2rem,3.4vw,2.75rem)] leading-tight">{service.name.replace(/s$/, "")} questions</h2>
+      <section className="border-t border-line">
+        <div className="wrap grid gap-12 py-24 md:grid-cols-[4fr_8fr] md:gap-16 md:py-32">
+          <h2 className="text-[clamp(2.25rem,4.2vw,3.5rem)] leading-[1.06]">
+            {service.name.replace(/s$/, "")} <em>questions</em>
+          </h2>
           <Faq items={service.faqs} />
         </div>
       </section>
 
-      <ClosingBand heading={service.closing.heading} body={service.closing.body} href={bookHref(service)} label={service.ctaLabel} />
+      <ClosingBand heading={service.closing.heading} body={service.closing.body} href={bookHref(service)} label={service.ctaLabel} image={imgs.panel} />
     </>
   );
 }

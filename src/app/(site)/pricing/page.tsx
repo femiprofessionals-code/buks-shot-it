@@ -9,16 +9,16 @@ export const metadata: Metadata = {
   alternates: { canonical: "/pricing" },
 };
 
-const th = "border-b border-charcoal pb-3 pr-4 text-left text-xs font-medium uppercase tracking-[0.12em] text-stone";
-const td = "border-b border-sand py-4 pr-4 align-top";
-const price = "tnum font-display text-[22px] font-medium";
+const th = "border-b border-line-strong pb-3 pr-4 text-left text-xs font-medium uppercase tracking-[0.12em] text-muted";
+const td = "border-b border-line py-4 pr-4 align-top";
+const price = "tnum font-display text-[24px] text-ivory";
 
 function Block({ id, title, note, children }: { id: string; title: string; note?: string; children: React.ReactNode }) {
   return (
     <section id={id} aria-labelledby={`${id}-h`} className="grid scroll-mt-8 gap-8 md:grid-cols-[3fr_9fr] md:gap-12">
       <div className="flex flex-col gap-2">
-        <h2 id={`${id}-h`} className="text-4xl">{title}</h2>
-        {note ? <p className="text-sm text-stone">{note}</p> : null}
+        <h2 id={`${id}-h`} className="text-[clamp(2.25rem,3.6vw,3rem)] leading-[1.05]">{title}</h2>
+        {note ? <p className="text-sm text-muted">{note}</p> : null}
       </div>
       <div className="min-w-0 overflow-x-auto">{children}</div>
     </section>
@@ -31,22 +31,23 @@ export default function PricingPage() {
   const p = services.products;
   return (
     <>
-      <section className="wrap flex flex-col gap-6 pb-14 pt-24">
-        <h1 className="text-[clamp(2.75rem,5.5vw,4.75rem)] leading-[1.04]">Services and pricing</h1>
-        <p className="max-w-[58ch] text-[19px] leading-relaxed">
+      <section className="wrap flex flex-col gap-7 pb-16 pt-20 md:pt-28">
+        <p className="label-rule hero-in">Pricing</p>
+        <h1 className="hero-in text-[clamp(3rem,7vw,6rem)] leading-[1] tracking-[-0.015em] [animation-delay:100ms]">Services <em>and pricing</em></h1>
+        <p className="hero-in max-w-[58ch] text-[19px] leading-relaxed text-fg-soft [animation-delay:200ms]">
           Thoughtfully priced for growing brands, professionals, couples, and families. Every package lists exactly what&apos;s
           included, so you know the cost before you ask.
         </p>
         <nav aria-label="Jump to" className="mt-3 flex flex-wrap gap-2.5 text-sm">
           {[["weddings", "Weddings"], ["portraits", "Portraits"], ["events", "Events"], ["products", "Products"], ["addons", "Add-ons"], ["payment", "Payment"]].map(([id, label]) => (
-            <a key={id} href={`#${id}`} className="rounded-[2px] border border-[#cfc6b7] px-4 py-2.5 text-charcoal no-underline hover:border-charcoal">
+            <a key={id} href={`#${id}`} className="rounded-[2px] border border-line-strong px-4 py-2.5 text-[11px] uppercase tracking-[0.18em] text-fg-soft no-underline hover:border-ivory hover:text-ivory">
               {label}
             </a>
           ))}
         </nav>
       </section>
 
-      <div className="wrap flex flex-col gap-24 pb-28">
+      <div className="wrap flex flex-col gap-28 border-t border-line pb-32 pt-20">
         <Block id="weddings" title="Weddings" note="Delivery in 2–4 weeks">
           <table className="w-full min-w-[560px] border-collapse text-base">
             <thead><tr><th className={th}>Package</th><th className={th}>Price</th><th className={th}>Coverage</th><th className={th}>Edited images</th><th className={th}>Also included</th></tr></thead>
@@ -62,11 +63,11 @@ export default function PricingPage() {
               ))}
             </tbody>
           </table>
-          <p className="mt-3.5 text-sm text-stone">Additional photographer: +$500–$900. <TextLink href={w.path}>Wedding details</TextLink></p>
+          <p className="mt-3.5 text-sm text-muted">Additional photographer: +$500–$900. <TextLink href={w.path}>Wedding details</TextLink></p>
         </Block>
 
         <Block id="portraits" title="Portraits" note="Delivery in 1–2 weeks">
-          <div className="flex flex-col gap-2 border border-dashed border-bronze bg-linen p-7">
+          <div className="flex flex-col gap-2 border border-dashed border-bronze bg-raised p-7">
             <p>Individual, couples, family and headshot sessions.</p>
             <p className="text-sm"><Placeholder>portrait packages and prices</Placeholder></p>
           </div>
@@ -113,7 +114,7 @@ export default function PricingPage() {
           </table>
         </Block>
 
-        <section id="payment" aria-labelledby="payment-h" className="grid scroll-mt-8 gap-14 border border-sand bg-white p-7 md:grid-cols-2 md:p-14">
+        <section id="payment" aria-labelledby="payment-h" className="grid scroll-mt-8 gap-14 border border-line bg-raised p-7 md:grid-cols-2 md:p-14">
           <div className="flex flex-col gap-5">
             <h2 id="payment-h" className="text-4xl">How payment works</h2>
             <ol className="flex list-decimal flex-col gap-3 pl-5 text-base leading-relaxed">
@@ -121,7 +122,7 @@ export default function PricingPage() {
               <li><strong>Balance.</strong> The remaining balance is due before your final photographs are delivered.</li>
               <li><strong>Extras.</strong> Additional services and travel may add to the total. They are agreed with you in writing before your date is confirmed.</li>
             </ol>
-            <p className="text-sm text-stone">Payments are processed securely by Stripe. You&apos;ll receive a receipt by email for every payment.</p>
+            <p className="text-sm text-muted">Payments are processed securely by Stripe. You&apos;ll receive a receipt by email for every payment.</p>
           </div>
           <div className="flex flex-col gap-5">
             <h2 className="text-4xl">Delivery times</h2>

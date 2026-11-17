@@ -8,7 +8,7 @@ export default function SiteLayout({ children }: LayoutProps<"/">) {
   return (
     <>
       {isProduction ? null : (
-        <div className="bg-charcoal px-4 py-2 text-center text-xs text-ash">
+        <div className="border-b border-line bg-canvas px-4 py-2 text-center text-[11px] tracking-[0.04em] text-muted">
           Preview site · photographs are temporary stock images · not yet open for bookings
         </div>
       )}

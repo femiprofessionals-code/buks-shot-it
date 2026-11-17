@@ -54,6 +54,25 @@ for (const [label, vp] of [["desktop", { width: 1440, height: 900 }], ["phone", 
 
 // Internal link crawl
 const ctx = await browser.newContext({ ignoreHTTPSErrors: Boolean(proxyServer) });
+
+// Home page: photographs first, no prices (decided 18 Nov 2026)
+{
+  const home = await ctx.newPage();
+  await home.setViewportSize({ width: 1440, height: 900 });
+  await home.goto(BASE + "/", { waitUntil: "networkidle" });
+  const mainText = await home.locator("main").innerText();
+  check("Home page shows no prices", !/\$\s?\d/.test(mainText), (mainText.match(/\$\s?[\d,]+/g) ?? []).join(" "));
+  const services = home.getByRole("button", { name: "Services" });
+  await services.focus();
+  await home.keyboard.press("Enter");
+  const weddingsLink = home.getByRole("banner").getByRole("link", { name: "Weddings" });
+  check("Services menu opens from the keyboard", await weddingsLink.isVisible());
+  await home.keyboard.press("Escape");
+  check("Services menu closes with Escape and returns focus", !(await weddingsLink.isVisible()) && (await services.evaluate((el) => el === document.activeElement)));
+  await services.click();
+  check("Services menu stays open after a mouse click", await weddingsLink.isVisible());
+  await home.close();
+}
 const page = await ctx.newPage();
 for (const href of Object.keys(results.links)) {
   const r = await page.request.get(BASE + href);

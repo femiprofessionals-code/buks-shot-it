@@ -23,14 +23,14 @@ export function MobileBookingBar() {
   if (!enabled) return null;
   return (
     <div
-      className={`fixed inset-x-0 bottom-0 z-40 border-t border-sand bg-ivory/95 px-4 pt-3 backdrop-blur transition-transform duration-300 sm:hidden ${visible ? "translate-y-0" : "translate-y-full"}`}
+      className={`fixed inset-x-0 bottom-0 z-40 border-t border-line bg-canvas/90 px-4 pt-3 backdrop-blur transition-transform duration-300 sm:hidden ${visible ? "translate-y-0" : "translate-y-full"}`}
       style={{ paddingBottom: "max(12px, env(safe-area-inset-bottom))" }}
       aria-hidden={!visible}
     >
       <Link
         href="/book"
         tabIndex={visible ? 0 : -1}
-        className="flex h-12 items-center justify-center rounded-[2px] bg-charcoal text-[13px] font-medium uppercase tracking-[0.12em] text-ivory no-underline"
+        className="flex h-12 items-center justify-center rounded-[2px] bg-ivory text-[12px] font-medium uppercase tracking-[0.18em] text-canvas no-underline"
       >
         Check your date
       </Link>

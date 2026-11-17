@@ -18,6 +18,19 @@
   --color-error: #a23b2e;
   --color-info: #3b5d7a;
 
+  /* Public website, dark (approved 18 Nov 2026). Contrast on canvas: ivory 16.6:1, fg-soft 11.4:1, muted 6.4:1, bronze 5.9:1. */
+  --color-canvas: #0e0d0c;      /* page background */
+  --color-raised: #171513;      /* cards, panels */
+  --color-raised-2: #201d1a;    /* hover, nested surfaces */
+  --color-fg-soft: #cdc6ba;     /* body text */
+  --color-muted: #9b9387;       /* secondary text */
+  --color-line: #2c2824;        /* hairlines (decorative) */
+  --color-line-strong: #4a443d; /* rules under headings */
+  --color-field: #807870;       /* form field borders, 3:1 or more */
+  --color-danger: #f09682;      /* errors on dark */
+  --color-caution: #e2b56c;     /* warnings on dark */
+  --color-ok: #8fca9f;          /* success on dark */
+
   --font-display: var(--font-ibarra), Georgia, "Times New Roman", serif;
   --font-sans: var(--font-schibsted), "Helvetica Neue", Arial, sans-serif;
 
@@ -30,25 +43,30 @@
     -webkit-text-size-adjust: 100%;
   }
   body {
-    @apply bg-ivory text-charcoal font-sans antialiased;
+    @apply bg-canvas text-ivory font-sans antialiased;
     font-size: 1.0625rem;
     line-height: 1.65;
   }
   h1, h2, h3 {
-    @apply font-display font-medium;
+    @apply font-display font-normal;
     text-wrap: balance;
+    letter-spacing: -0.005em;
+  }
+  /* Italic accent inside display headings: "Every frame, <em>considered.</em>" */
+  :is(h1, h2, h3) em {
+    @apply font-normal italic text-bronze;
   }
   a {
-    @apply text-bronze-deep;
+    @apply text-bronze;
     text-underline-offset: 4px;
     text-decoration-thickness: 1px;
   }
   :focus-visible {
-    outline: 2px solid var(--color-bronze-deep);
+    outline: 2px solid var(--color-bronze);
     outline-offset: 3px;
   }
   ::selection {
-    @apply bg-charcoal text-ivory;
+    @apply bg-bronze text-canvas;
   }
 }
 
@@ -57,13 +75,66 @@
     @apply mx-auto w-full max-w-[1320px] px-4 sm:px-8 lg:px-12;
   }
   .label {
-    @apply text-xs font-medium uppercase text-stone;
-    letter-spacing: 0.16em;
+    @apply text-xs font-medium uppercase text-muted;
+    letter-spacing: 0.22em;
+  }
+  /* Label with a short rule before it. */
+  .label-rule {
+    @apply flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.16em] text-muted sm:gap-4 sm:text-xs sm:tracking-[0.22em];
+  }
+  .label-rule::before {
+    content: "";
+    @apply block h-px w-6 shrink-0 bg-bronze sm:w-10;
+  }
+  /* Admin and other light screens. */
+  .light-scope {
+    @apply bg-ivory text-charcoal;
+    color-scheme: light;
+  }
+  .light-scope a {
+    @apply text-bronze-deep;
+  }
+  .light-scope :focus-visible {
+    outline-color: var(--color-bronze-deep);
+  }
+  .light-scope .label {
+    @apply text-stone;
   }
   /* Lining figures. Tabular figures widen the comma in Schibsted Grotesk ("$1 ,900"). */
   .tnum {
     font-variant-numeric: lining-nums;
   }
+}
+
+html {
+  color-scheme: dark;
+}
+
+/* Sections ease in as they scroll into view. Browsers without scroll-driven animation show them straight away. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+}
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes hero-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes hero-zoom {
+  from { transform: scale(1.06); }
+  to { transform: scale(1); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-in { animation: hero-in 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .hero-zoom { animation: hero-zoom 2.4s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
 }
 
 @media (prefers-reduced-motion: reduce) {

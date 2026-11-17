@@ -18,33 +18,33 @@ export function PackageCards({ service }: { service: Service }) {
         return (
           <article
             key={p.id}
-            className={`flex flex-col gap-5 border bg-white p-8 ${featured ? "border-charcoal" : "border-sand"}`}
+            className={`relative flex flex-col gap-6 border bg-raised p-8 md:p-10 ${featured ? "border-bronze/70" : "border-line"}`}
             aria-labelledby={`${p.id}-name`}
           >
-            <h3 id={`${p.id}-name`} className="text-[28px] leading-tight">{p.name}</h3>
-            <p className="tnum font-display text-[40px] font-medium leading-none">
+            <h3 id={`${p.id}-name`} className="text-[30px] leading-tight">{p.name}</h3>
+            <p className="tnum font-display text-[44px] leading-none text-ivory">
               {p.priceType === "on_request" ? <span className="text-[24px]">Pricing on request</span> : packagePrice(p)}
             </p>
-            <p className="min-h-12 text-[15px] text-stone">{p.bestFor}</p>
+            <p className="min-h-12 text-[15px] leading-relaxed text-muted">{p.bestFor}</p>
             {p.facts.length > 0 || p.priceType !== "on_request" ? (
-              <dl className="border-t border-charcoal text-[15px]">
+              <dl className="border-t border-line-strong text-[15px]">
                 {p.facts.map((f) => (
-                  <div key={f.label} className="flex justify-between gap-4 border-b border-sand py-2.5">
-                    <dt>{f.label}</dt>
-                    <dd className="tnum text-right font-semibold">{f.value}</dd>
+                  <div key={f.label} className="flex justify-between gap-4 border-b border-line py-3">
+                    <dt className="text-fg-soft">{f.label}</dt>
+                    <dd className="tnum text-right text-ivory">{f.value}</dd>
                   </div>
                 ))}
                 {p.priceType !== "on_request" ? (
-                  <div className="flex justify-between gap-4 border-b border-sand py-2.5">
-                    <dt>Retainer to reserve</dt>
-                    <dd className="tnum text-right font-semibold">{retainerLabel(p)}</dd>
+                  <div className="flex justify-between gap-4 border-b border-line py-3">
+                    <dt className="text-fg-soft">Retainer to reserve</dt>
+                    <dd className="tnum text-right text-ivory">{retainerLabel(p)}</dd>
                   </div>
                 ) : null}
               </dl>
             ) : (
               <p className="text-sm"><Placeholder>price, session length, edited images, people included</Placeholder></p>
             )}
-            <div className="mt-auto pt-2">
+            <div className="mt-auto pt-3">
               {p.action === "ask" ? (
                 <ButtonLink href={`/contact?topic=portraits&session=${encodeURIComponent(p.name)}`} variant="secondary" className="w-full">
                   Ask about this session
@@ -66,14 +66,14 @@ export function PackageCards({ service }: { service: Service }) {
 
 export function Faq({ items }: { items: Service["faqs"] }) {
   return (
-    <div className="border-t border-charcoal">
+    <div className="border-t border-line-strong">
       {items.map((f, i) => (
-        <details key={f.q} className="group border-b border-sand" open={i === 0}>
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-[17px] font-semibold marker:hidden">
+        <details key={f.q} className="group border-b border-line" open={i === 0}>
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-6 font-display text-[22px] leading-snug text-ivory marker:hidden hover:text-bronze">
             {f.q}
-            <span aria-hidden="true" className="text-xl font-normal text-stone transition-transform group-open:rotate-45">+</span>
+            <span aria-hidden="true" className="font-sans text-2xl font-light text-bronze transition-transform duration-300 group-open:rotate-45">+</span>
           </summary>
-          <p className="max-w-[62ch] pb-5 text-base leading-relaxed text-ink-soft">
+          <p className="max-w-[62ch] pb-6 text-base leading-relaxed text-fg-soft">
             {f.placeholder ? <Placeholder>{f.a}</Placeholder> : f.a}
           </p>
         </details>
@@ -82,14 +82,14 @@ export function Faq({ items }: { items: Service["faqs"] }) {
   );
 }
 
-export function BookingSteps({ dark = false }: { dark?: boolean }) {
+export function BookingSteps() {
   return (
-    <ol className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+    <ol className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
       {bookingSteps.map((s, i) => (
-        <li key={s.title} className={`flex flex-col gap-3 border-t pt-5 ${dark ? "border-ivory" : "border-charcoal"}`}>
-          <span className={`font-display text-4xl ${dark ? "text-bronze" : "text-bronze-deep"}`} aria-hidden="true">{i + 1}</span>
-          <h3 className="font-sans text-[19px] font-semibold">{s.title}</h3>
-          <p className={`text-[15px] leading-relaxed ${dark ? "text-[#d9d4cb]" : "text-ink-soft"}`}>{s.text}</p>
+        <li key={s.title} className="flex flex-col gap-4 border-t border-line-strong pt-6">
+          <span className="font-display text-5xl italic text-bronze" aria-hidden="true">0{i + 1}</span>
+          <h3 className="font-sans text-[18px] font-medium text-ivory">{s.title}</h3>
+          <p className="text-[15px] leading-relaxed text-fg-soft">{s.text}</p>
         </li>
       ))}
     </ol>
@@ -98,26 +98,29 @@ export function BookingSteps({ dark = false }: { dark?: boolean }) {
 
 /** A complete-story layout: five photographs in an editorial grid. */
 export function PhotoStory({ photos }: { photos: Photo[] }) {
-  const spans = ["md:col-span-4", "md:col-span-8", "md:col-span-5", "md:col-span-3", "md:col-span-4"];
-  const heights = ["h-[300px] md:h-[440px]", "h-[300px] md:h-[440px]", "h-[260px] md:h-[360px]", "h-[260px] md:h-[360px]", "h-[260px] md:h-[360px]"];
+  const spans = ["md:col-span-5", "md:col-span-7", "md:col-span-12", "md:col-span-7", "md:col-span-5"];
+  const heights = ["aspect-[4/5] md:aspect-auto md:h-[620px]", "aspect-[3/2] md:aspect-auto md:h-[620px]", "aspect-[3/2] md:aspect-[21/9]", "aspect-[3/2] md:aspect-auto md:h-[540px]", "aspect-[4/5] md:aspect-auto md:h-[540px]"];
+  const sizes = ["(max-width: 768px) 100vw, 42vw", "(max-width: 768px) 100vw, 58vw", "100vw", "(max-width: 768px) 100vw, 58vw", "(max-width: 768px) 100vw, 42vw"];
   return (
-    <div className="grid grid-cols-1 gap-3 md:grid-cols-12">
+    <div className="grid grid-cols-1 gap-[3px] md:grid-cols-12">
       {photos.slice(0, 5).map((p, i) => (
-        <div key={`${p.id}-${i}`} className={`relative ${spans[i]} ${heights[i]}`}>
-          <Image src={p.src} alt={p.alt} fill placeholder="blur" sizes="(max-width: 768px) 100vw, 60vw" className="object-cover" />
+        <div key={`${p.id}-${i}`} className={`reveal relative overflow-hidden bg-raised ${spans[i]} ${heights[i]}`}>
+          <Image src={p.src} alt={p.alt} fill placeholder="blur" sizes={sizes[i]} className="object-cover" />
         </div>
       ))}
     </div>
   );
 }
 
-export function ClosingBand({ heading, body, href, label }: { heading: string; body: string; href: string; label: string }) {
+export function ClosingBand({ heading, body, href, label, image }: { heading: string; body: string; href: string; label: string; image?: Photo }) {
   return (
-    <section className="bg-charcoal text-ivory">
-      <div className="wrap flex flex-col items-start gap-5 py-24">
-        <h2 className="text-[clamp(2.25rem,4.5vw,3.5rem)] leading-tight">{heading}</h2>
-        <p className="text-lg text-[#d9d4cb]">{body}</p>
-        <ButtonLink href={href} variant="accent" className="mt-2">{label}</ButtonLink>
+    <section className="relative isolate overflow-hidden border-t border-line">
+      {image ? <Image src={image.src} alt="" fill placeholder="blur" sizes="100vw" className="-z-20 object-cover opacity-25" /> : null}
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-b from-canvas via-canvas/60 to-canvas" />
+      <div className="wrap reveal flex flex-col items-center gap-7 py-32 text-center md:py-40">
+        <h2 className="max-w-[18ch] text-[clamp(2.75rem,6vw,5rem)] leading-[1.02]">{heading}</h2>
+        <p className="max-w-[50ch] text-lg leading-relaxed text-fg-soft">{body}</p>
+        <ButtonLink href={href} className="mt-2">{label}</ButtonLink>
       </div>
     </section>
   );

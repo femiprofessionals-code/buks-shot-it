@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function BookingTermsPage() {
   return (
     <LegalPage title="Booking terms">
-      <p className="text-sm text-stone">Last updated: <Placeholder>date</Placeholder></p>
+      <p className="text-sm text-muted">Last updated: <Placeholder>date</Placeholder></p>
       <p>These terms apply to every session booked with Buks Shot It (&ldquo;I&rdquo;, &ldquo;me&rdquo;). <Placeholder>legal business name and state of registration</Placeholder></p>
       <h2>1. Booking and approval</h2>
       <p>A booking request is not a reservation. I review each request and may approve or decline it. A date is reserved only after your request is approved and the retainer is paid.</p>

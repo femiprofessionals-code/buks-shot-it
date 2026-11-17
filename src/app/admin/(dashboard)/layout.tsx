@@ -16,7 +16,7 @@ const nav = [
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-dvh flex-wrap bg-ivory">
+    <div className="light-scope flex min-h-dvh flex-wrap">
       <aside className="flex w-full flex-col gap-1 bg-charcoal px-4 py-5 text-ivory md:min-h-dvh md:w-60">
         <Image src="/brand/buks-wordmark-reverse.svg" alt="Buks shot it." width={504} height={77} unoptimized className="mx-3 mb-6 h-5 w-auto self-start" />
         <nav aria-label="Admin" className="flex flex-row flex-wrap gap-1 md:flex-col">

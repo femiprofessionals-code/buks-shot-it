@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <LegalPage title="Privacy policy">
-      <p className="text-sm text-stone">Last updated: <Placeholder>date</Placeholder></p>
+      <p className="text-sm text-muted">Last updated: <Placeholder>date</Placeholder></p>
       <h2>Who I am</h2>
       <p>Buks Shot It, <Placeholder>legal business name and address</Placeholder>. Contact: {site.email}.</p>
       <h2>What I collect</h2>

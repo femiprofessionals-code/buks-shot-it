@@ -43,39 +43,52 @@ export function PhotoGrid({ photos }: { photos: GridPhoto[] }) {
 
   return (
     <>
-      <ul className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
-        {photos.map((p, i) => (
-          <li key={p.id} className="flex flex-col gap-2.5">
-            <button
-              ref={(el) => {
-                triggers.current[i] = el;
-              }}
-              type="button"
-              onClick={() => setIndex(i)}
-              className="relative block aspect-[4/5] w-full cursor-zoom-in overflow-hidden"
-              aria-label={`View larger: ${p.alt}`}
-            >
-              {p.kind === "remote" ? (
-                // eslint-disable-next-line @next/next/no-img-element -- sizes are pre-generated at upload, so the image optimizer isn't needed
-                <img
-                  src={p.src}
-                  srcSet={p.srcSet}
-                  sizes="(max-width: 768px) 50vw, 33vw"
-                  width={p.width}
-                  height={p.height}
-                  alt={p.alt}
-                  loading="lazy"
-                  decoding="async"
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 hover:scale-[1.02]"
-                  style={p.blur ? { backgroundImage: `url(${p.blur})`, backgroundSize: "cover" } : undefined}
-                />
-              ) : (
-                <Image src={p.src} alt={p.alt} fill placeholder="blur" sizes="(max-width: 768px) 50vw, 33vw" className="object-cover transition-transform duration-700 hover:scale-[1.02]" />
-              )}
-            </button>
-            <p className="text-sm text-stone">{p.label}</p>
-          </li>
-        ))}
+      <ul className="grid grid-cols-1 gap-[3px] md:grid-cols-2">
+        {photos.map((p, i) => {
+          const w = p.kind === "remote" ? p.width : p.src.width;
+          const h = p.kind === "remote" ? p.height : p.src.height;
+          const ratio = w / h;
+          // Rhythm: a wide photograph across the full width, then two side by side.
+          const wide = i % 3 === 0 && ratio >= 1.2;
+          const aspect = wide ? Math.max(ratio, 1.6) : Math.min(Math.max(ratio, 0.8), 1.5);
+          return (
+            <li key={p.id} className={`reveal ${wide ? "md:col-span-2" : ""}`}>
+              <button
+                ref={(el) => {
+                  triggers.current[i] = el;
+                }}
+                type="button"
+                onClick={() => setIndex(i)}
+                className="group relative block w-full cursor-zoom-in overflow-hidden bg-raised"
+                style={{ aspectRatio: aspect }}
+                aria-label={`View larger: ${p.alt}`}
+              >
+                {p.kind === "remote" ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- sizes are pre-generated at upload, so the image optimizer isn't needed
+                  <img
+                    src={p.src}
+                    srcSet={p.srcSet}
+                    sizes={wide ? "100vw" : "(max-width: 768px) 100vw, 50vw"}
+                    width={p.width}
+                    height={p.height}
+                    alt={p.alt}
+                    loading="lazy"
+                    decoding="async"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.03]"
+                    style={p.blur ? { backgroundImage: `url(${p.blur})`, backgroundSize: "cover" } : undefined}
+                  />
+                ) : (
+                  <Image src={p.src} alt={p.alt} fill placeholder="blur" sizes={wide ? "100vw" : "(max-width: 768px) 100vw, 50vw"} className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.03]" />
+                )}
+                {p.label ? (
+                  <span className="absolute bottom-0 left-0 p-5 text-[11px] font-medium uppercase tracking-[0.22em] text-ivory opacity-0 transition-opacity duration-500 [text-shadow:0_1px_8px_rgb(0_0_0/0.6)] group-hover:opacity-100 group-focus-visible:opacity-100">
+                    {p.label}
+                  </span>
+                ) : null}
+              </button>
+            </li>
+          );
+        })}
       </ul>
 
       {current ? (
@@ -83,7 +96,7 @@ export function PhotoGrid({ photos }: { photos: GridPhoto[] }) {
           role="dialog"
           aria-modal="true"
           aria-label="Photograph viewer"
-          className="fixed inset-0 z-50 flex flex-col bg-[#0e0e0e] text-ivory"
+          className="fixed inset-0 z-50 flex flex-col bg-canvas text-ivory"
           onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
           onTouchEnd={(e) => {
             if (touchX.current === null) return;
@@ -104,16 +117,16 @@ export function PhotoGrid({ photos }: { photos: GridPhoto[] }) {
           </div>
           <div className="flex flex-wrap items-center justify-between gap-4 px-4 pb-6 pt-3 text-sm md:px-8" style={{ paddingBottom: "max(24px, env(safe-area-inset-bottom))" }}>
             <p>
-              <span className="tnum mr-3 text-ash">{(index ?? 0) + 1} / {n}</span>
+              <span className="tnum mr-4 text-muted">{(index ?? 0) + 1} / {n}</span>
               {current.alt}
             </p>
             <div className="flex gap-2">
               {["Previous", "Next"].map((label) => (
-                <button key={label} type="button" onClick={() => step(label === "Next" ? 1 : -1)} className="h-11 rounded-[2px] border border-[#4a4743] px-4 text-[13px] uppercase tracking-[0.1em] hover:border-ivory">
+                <button key={label} type="button" onClick={() => step(label === "Next" ? 1 : -1)} className="h-11 rounded-[2px] border border-line-strong px-4 text-[11px] uppercase tracking-[0.18em] hover:border-ivory">
                   {label}
                 </button>
               ))}
-              <button ref={closeRef} type="button" onClick={close} className="h-11 rounded-[2px] border border-[#4a4743] px-4 text-[13px] uppercase tracking-[0.1em] hover:border-ivory">
+              <button ref={closeRef} type="button" onClick={close} className="h-11 rounded-[2px] border border-line-strong px-4 text-[11px] uppercase tracking-[0.18em] hover:border-ivory">
                 Close
               </button>
             </div>
