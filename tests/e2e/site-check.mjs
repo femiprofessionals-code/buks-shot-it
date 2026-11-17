@@ -14,7 +14,9 @@ const pages = ["/", "/wedding-photography", "/portrait-photography", "/event-pho
 const results = { axe: {}, console: [], links: {}, checks: [] };
 const check = (name, ok, detail = "") => { results.checks.push({ name, ok, detail }); console.log(`${ok ? "PASS" : "FAIL"} ${name}${detail ? " — " + detail : ""}`); };
 
-const browser = await chromium.launch();
+// Route through an outbound proxy when the environment requires one.
+const proxyServer = process.env.HTTPS_PROXY || process.env.https_proxy;
+const browser = await chromium.launch(proxyServer ? { proxy: { server: proxyServer } } : {});
 for (const [label, vp] of [["desktop", { width: 1440, height: 900 }], ["phone", { width: 390, height: 844 }]]) {
   const ctx = await browser.newContext({ viewport: vp });
   const page = await ctx.newPage();
@@ -51,7 +53,7 @@ for (const [label, vp] of [["desktop", { width: 1440, height: 900 }], ["phone", 
 }
 
 // Internal link crawl
-const ctx = await browser.newContext();
+const ctx = await browser.newContext({ ignoreHTTPSErrors: Boolean(proxyServer) });
 const page = await ctx.newPage();
 for (const href of Object.keys(results.links)) {
   const r = await page.request.get(BASE + href);
