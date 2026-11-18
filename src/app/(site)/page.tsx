@@ -10,27 +10,34 @@ export default function HomePage() {
     <>
       {/* Full-screen opening photograph */}
       <section className="relative isolate flex h-[calc(100svh-72px)] max-h-[1100px] min-h-[540px] items-end overflow-hidden lg:h-[calc(100svh-80px)]">
-        <Image
-          src={heroPhoto.src}
-          alt={heroPhoto.alt}
-          fill
-          priority
-          placeholder="blur"
-          quality={85}
-          sizes="100vw"
-          className="hero-zoom -z-20 object-cover object-[58%_45%]"
-        />
+        <div className="hero-parallax absolute inset-0 -z-20 overflow-hidden">
+          <Image
+            src={heroPhoto.src}
+            alt={heroPhoto.alt}
+            fill
+            priority
+            placeholder="blur"
+            quality={85}
+            sizes="100vw"
+            className="hero-zoom object-cover object-[58%_45%]"
+          />
+        </div>
         <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,var(--color-canvas)_0%,rgb(14_13_12/0.55)_28%,rgb(14_13_12/0)_60%)]" />
         <div aria-hidden="true" className="absolute inset-0 -z-10 hidden bg-gradient-to-r from-canvas/60 via-transparent to-transparent md:block" />
         <div className="wrap flex flex-col gap-7 pb-12 md:gap-8 md:pb-24">
           <p className="label-rule hero-in text-fg-soft">Wedding · Portrait · Event · Product</p>
-          <h1 className="hero-in max-w-[12ch] text-[clamp(3.5rem,9vw,8.5rem)] leading-[0.95] tracking-[-0.02em] [animation-delay:120ms]">
-            Every frame, <em>considered.</em>
+          <h1 className="max-w-[12ch] text-[clamp(3.5rem,9vw,8.5rem)] leading-[0.95] tracking-[-0.02em]">
+            <span className="line-mask"><span>Every frame,</span></span>{" "}
+            <span className="line-mask"><em>considered.</em></span>
           </h1>
           <div className="hero-in flex flex-wrap items-center gap-x-10 gap-y-5 [animation-delay:240ms]">
             <ButtonLink href="/portfolio" variant="onPhoto">View the work</ButtonLink>
             <ArrowLink href="/book">Check your date</ArrowLink>
           </div>
+        </div>
+        <div aria-hidden="true" className="absolute bottom-10 right-4 hidden flex-col items-center gap-3 sm:right-8 md:flex lg:right-12">
+          <span className="text-[10px] uppercase tracking-[0.3em] text-muted [writing-mode:vertical-rl]">Scroll</span>
+          <span className="scroll-cue" />
         </div>
       </section>
 
@@ -62,16 +69,18 @@ export default function HomePage() {
         </div>
         <ul className="grid gap-[3px] sm:grid-cols-2">
           {serviceList.map((s, i) => (
-            <li key={s.slug} className="reveal">
-              <Link href={s.path} className="group relative block aspect-[4/5] overflow-hidden bg-raised text-ivory no-underline sm:aspect-[4/3]">
-                <Image
-                  src={servicePhotos[s.slug].panel.src}
-                  alt=""
-                  fill
-                  placeholder="blur"
-                  sizes="(max-width: 640px) 100vw, 50vw"
-                  className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.04]"
-                />
+            <li key={s.slug}>
+              <Link href={s.path} className="reveal-img group relative block aspect-[4/5] overflow-hidden bg-raised text-ivory no-underline sm:aspect-[4/3]">
+                <div className="parallax">
+                  <Image
+                    src={servicePhotos[s.slug].panel.src}
+                    alt=""
+                    fill
+                    placeholder="blur"
+                    sizes="(max-width: 640px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.04]"
+                  />
+                </div>
                 <div aria-hidden="true" className="absolute inset-0 bg-[linear-gradient(to_top,rgb(14_13_12/0.88)_0%,rgb(14_13_12/0.35)_30%,rgb(14_13_12/0)_55%)]" />
                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-6 p-6 md:p-10">
                   <div className="flex flex-col gap-3">
@@ -111,15 +120,17 @@ export default function HomePage() {
             { p: photos.fireworks, c: "md:col-span-4 aspect-square", s: "(max-width: 768px) 50vw, 33vw" },
             { p: photos.familyCity, c: "col-span-2 md:col-span-4 aspect-[4/3] md:aspect-square", s: "(max-width: 768px) 100vw, 33vw" },
           ].map(({ p, c, s }) => (
-            <Link key={p.id} href={`/portfolio/${p.category}`} className={`reveal group relative block overflow-hidden bg-raised ${c}`}>
-              <Image
-                src={p.src}
-                alt={p.alt}
-                fill
-                placeholder="blur"
-                sizes={s}
-                className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.03]"
-              />
+            <Link key={p.id} href={`/portfolio/${p.category}`} className={`reveal-img group relative block overflow-hidden bg-raised ${c}`}>
+              <div className="parallax">
+                <Image
+                  src={p.src}
+                  alt={p.alt}
+                  fill
+                  placeholder="blur"
+                  sizes={s}
+                  className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.03]"
+                />
+              </div>
             </Link>
           ))}
         </div>
@@ -146,7 +157,9 @@ export default function HomePage() {
 
       {/* Closing */}
       <section className="relative isolate overflow-hidden border-t border-line">
-        <Image src={photos.coupleBench.src} alt="" fill placeholder="blur" sizes="100vw" className="-z-20 object-cover opacity-30" />
+        <div className="parallax -z-20">
+          <Image src={photos.coupleBench.src} alt="" fill placeholder="blur" sizes="100vw" className="object-cover opacity-30" />
+        </div>
         <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-b from-canvas via-canvas/60 to-canvas" />
         <div className="wrap reveal flex flex-col items-center gap-8 py-32 text-center md:py-44">
           <p className="label-rule">Two sessions a day, at most</p>

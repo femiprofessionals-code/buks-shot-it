@@ -10,11 +10,13 @@ export function ServicePage({ service }: { service: Service }) {
   return (
     <>
       <section className="relative isolate flex h-[78svh] max-h-[960px] min-h-[480px] items-end overflow-hidden">
-        <Image src={imgs.hero.src} alt={imgs.hero.alt} fill priority placeholder="blur" quality={85} sizes="100vw" className="hero-zoom -z-20 object-cover" />
+        <div className="hero-parallax absolute inset-0 -z-20 overflow-hidden">
+          <Image src={imgs.hero.src} alt={imgs.hero.alt} fill priority placeholder="blur" quality={85} sizes="100vw" className="hero-zoom object-cover" />
+        </div>
         <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(to_top,var(--color-canvas)_0%,rgb(14_13_12/0.55)_30%,rgb(14_13_12/0)_62%)]" />
         <div className="wrap flex flex-col gap-6 pb-14 md:pb-20">
           <p className="label-rule hero-in text-fg-soft">{service.name}</p>
-          <h1 className="hero-in max-w-[16ch] text-[clamp(3rem,7vw,6.25rem)] leading-[0.98] tracking-[-0.015em] [animation-delay:120ms]">{service.title}</h1>
+          <h1 className="max-w-[16ch] text-[clamp(3rem,7vw,6.25rem)] leading-[0.98] tracking-[-0.015em]"><span className="line-mask"><span>{service.title}</span></span></h1>
         </div>
       </section>
 

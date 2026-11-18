@@ -104,8 +104,10 @@ export function PhotoStory({ photos }: { photos: Photo[] }) {
   return (
     <div className="grid grid-cols-1 gap-[3px] md:grid-cols-12">
       {photos.slice(0, 5).map((p, i) => (
-        <div key={`${p.id}-${i}`} className={`reveal relative overflow-hidden bg-raised ${spans[i]} ${heights[i]}`}>
-          <Image src={p.src} alt={p.alt} fill placeholder="blur" sizes={sizes[i]} className="object-cover" />
+        <div key={`${p.id}-${i}`} className={`reveal-img relative overflow-hidden bg-raised ${spans[i]} ${heights[i]}`}>
+          <div className="parallax">
+            <Image src={p.src} alt={p.alt} fill placeholder="blur" sizes={sizes[i]} className="object-cover" />
+          </div>
         </div>
       ))}
     </div>
@@ -115,7 +117,11 @@ export function PhotoStory({ photos }: { photos: Photo[] }) {
 export function ClosingBand({ heading, body, href, label, image }: { heading: string; body: string; href: string; label: string; image?: Photo }) {
   return (
     <section className="relative isolate overflow-hidden border-t border-line">
-      {image ? <Image src={image.src} alt="" fill placeholder="blur" sizes="100vw" className="-z-20 object-cover opacity-25" /> : null}
+      {image ? (
+        <div className="parallax -z-20">
+          <Image src={image.src} alt="" fill placeholder="blur" sizes="100vw" className="object-cover opacity-25" />
+        </div>
+      ) : null}
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-b from-canvas via-canvas/60 to-canvas" />
       <div className="wrap reveal flex flex-col items-center gap-7 py-32 text-center md:py-40">
         <h2 className="max-w-[18ch] text-[clamp(2.75rem,6vw,5rem)] leading-[1.02]">{heading}</h2>

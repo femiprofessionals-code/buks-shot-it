@@ -52,7 +52,7 @@ export function PhotoGrid({ photos }: { photos: GridPhoto[] }) {
           const wide = i % 3 === 0 && ratio >= 1.2;
           const aspect = wide ? Math.max(ratio, 1.6) : Math.min(Math.max(ratio, 0.8), 1.5);
           return (
-            <li key={p.id} className={`reveal ${wide ? "md:col-span-2" : ""}`}>
+            <li key={p.id} className={`reveal-img ${wide ? "md:col-span-2" : ""}`}>
               <button
                 ref={(el) => {
                   triggers.current[i] = el;
